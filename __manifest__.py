@@ -12,6 +12,7 @@
     'data': [
         # 'security/ir.model.access.csv',
         'views/stock_warehouse.xml',
+        'views/pos_session.xml',
     ],
     'qweb': [
         'static/src/xml/Report.xml',
