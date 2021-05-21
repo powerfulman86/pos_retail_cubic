@@ -2,16 +2,16 @@
 <odoo>
     <data>
 
-<!--        <record id="cubic_pos_payment_method_view_form" model="ir.ui.view">-->
-<!--            <field name="name">pos.payment.method</field>-->
-<!--            <field name="model">pos.payment.method</field>-->
-<!--            <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <xpath expr="//field[@name='receivable_account_id']" position="attributes">-->
-<!--                    <attribute name="domain">[('user_type_id.name', '=', 'Bank and Cash')]</attribute>-->
-<!--                </xpath>-->
-<!--            </field>-->
-<!--        </record>-->
+        <!--        <record id="cubic_pos_payment_method_view_form" model="ir.ui.view">-->
+        <!--            <field name="name">pos.payment.method</field>-->
+        <!--            <field name="model">pos.payment.method</field>-->
+        <!--            <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//field[@name='receivable_account_id']" position="attributes">-->
+        <!--                    <attribute name="domain">[('user_type_id.name', '=', 'Bank and Cash')]</attribute>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
 
         <record id="pos_cubic_view_pos_session_form" model="ir.ui.view">
             <field name="name">pos.session</field>
@@ -32,26 +32,16 @@
             </field>
         </record>
 
-        <record id="view_pos_config_kanban" model="ir.ui.view">
+        <record id="cubic_view_pos_config_kanban" model="ir.ui.view">
             <field name="name">pos.config.kanban.view</field>
-            <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+            <field name="inherit_id" ref="pos_retail.view_pos_config_kanban"/>
             <field name="model">pos.config</field>
             <field name="arch" type="xml">
-                <xpath expr="//button[@name='open_session_cb']" position="after">
-                    <button groups="point_of_sale.group_pos_manager" class="btn btn-primary"
-                            name="remote_sessions"
-                            type="object">Remote Sessions
-                    </button>
-                    <button groups="point_of_sale.group_pos_manager" class="btn btn-primary"
-                            name="validate_and_post_entries_session" style="margin-top: 3px"
-                            type="object">Close all
-                        Sessions Opened
-                    </button>
-                </xpath>
                 <xpath expr="//field[@name='current_session_id']" position="before">
                     <field name="pos_branch_id" groups="pos_retail.group_branch_manager"/>
                 </xpath>
-                <xpath expr="//div[hasclass('o_kanban_primary_right')]" position="inside">
+                <!-- <xpath expr="//div[hasclass('o_kanban_primary_right')]" position="inside">-->
+                <xpath expr="//div[contains(@t-if,'record.pos_branch_id')]" position="replace">
                     <div t-if="record.pos_branch_id" class="row">
                         <div class="col-6">
                             <span>Branch:</span>
