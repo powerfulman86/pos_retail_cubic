@@ -1,0 +1,18 @@
+
+.pos .ribbon span {
+  background: $secondary_color;
+  border-radius: 50% 50% 50% 50%;
+  color:green;
+  width:10px;
+  height:10px;
+  text-align: center;
+  left: 0px;
+  padding-left: 5px;
+  text-transform: uppercase;
+  line-height: 30px;
+  font-size: 0px;
+  display: block;
+  position: absolute;
+  top: 0px;
+  font-weight: 500;
+}

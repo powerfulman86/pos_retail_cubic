@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="cubic_pos_config_retail" model="ir.ui.view">
+            <field name="name">pos.config</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="pos_retail.pos_config_retail"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='mrp']" position="after">
+                    <field name="modify_bom" attrs="{'invisible': [('mrp', '=', False)]}" />
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
