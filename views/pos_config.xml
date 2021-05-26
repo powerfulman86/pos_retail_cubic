@@ -11,7 +11,9 @@
                     <field name="modify_bom" attrs="{'invisible': [('mrp', '=', False)]}" />
                 </xpath>
                 <xpath expr="//field[@name='mrp_produce_direct']" position="after">
+                    <group>
                     <field name="bom_operation_type_id" attrs="{'invisible': [('mrp', '=', False)]}" />
+                    </group>
                 </xpath>
 
             </field>

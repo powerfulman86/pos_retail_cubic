@@ -109,7 +109,6 @@ class POSOrderLine(models.Model):
     #
 
     def action_create_mrp_production_direct_from_pos(self, config_id, pos_reference, product_id, quantity, bom_lines):
-        print(config_id, "xxxxxxxxxxxxxxxxxxx", pos_reference)
         Production = self.env['mrp.production'].sudo()
 
         config = self.env['pos.config'].browse(config_id)
@@ -117,7 +116,9 @@ class POSOrderLine(models.Model):
         if bom_lines:
             bom_line = self.env['mrp.bom.line'].sudo().browse(bom_lines[0].get('bom_line').get('id'))
         bom = bom_line.bom_id
-        picking_type_id = bom.picking_type_id.id if bom.picking_type_id else Production._get_default_picking_type()
+        # picking_type_id = bom.picking_type_id.id if bom.picking_type_id else Production._get_default_picking_type()
+        picking_type_id = bom.picking_type_id.id if bom.picking_type_id else config.bom_operation_type_id.id if config.bom_operation_type_id else Production._get_default_picking_type()
+        picking_type_id = self.env['stock.picking.type'].browse(picking_type_id)
         product = self.env['product.product'].browse(product_id)
         production_vals = {
             'bom_id': bom.id,
@@ -128,24 +129,29 @@ class POSOrderLine(models.Model):
             'product_uom_id': product.uom_id.id,
             'user_id': self.env.user.id,
             'company_id': self.env.user.company_id.id,
-            'picking_type_id': picking_type_id,
+            'picking_type_id': picking_type_id.id,
+            'location_src_id':  picking_type_id.default_location_src_id.id ,
+            'location_dest_id': picking_type_id.default_location_dest_id.id
         }
         # _logger.info('Created new Production {}'.format(production_vals))
         mrp_order = self.env['mrp.production'].sudo().create(production_vals)
         for bom_line in bom_lines:
             bom_line_value = bom_line.get('bom_line')
             bom_line_record = self.env['mrp.bom.line'].sudo().browse(bom_line_value.get('id'))
-            print(">>>>>>>>>>>>>>>>>>>>>>>>",config)
-            print(">>>>>>>>>>>>>>>>>>>>>>>>",config.bom_operation_type_id)
+            print(">>>>>>>>>>>>>>>>>>>>>>>>", config)
+            print(">>>>>>>>>>>>>>>>>>>>>>>>", config.bom_operation_type_id)
+            print(">>>>>>>>>>>>>>>>>>>>>>>>", config.bom_operation_type_id.default_location_src_id.id)
+            print(">>>>>>>>>>>>>>>>>>>>>>>>", config.bom_operation_type_id.default_location_dest_id.id)
+            # self.picking_type_id.default_location_src_id.id
             move_vals = {
                 'raw_material_production_id': mrp_order.id,
                 'name': mrp_order.name,
                 'product_id': bom_line_record.product_id.id,
                 'product_uom': bom_line_record.product_uom_id.id,
                 'product_uom_qty': bom_line.get('quantity') * quantity,
-                'picking_type_id': picking_type_id,
-                'location_id': config.bom_operation_type_id.default_location_src_id.id,
-                'location_dest_id': config.bom_operation_type_id.default_location_dest_id.id,
+                'picking_type_id': picking_type_id.id,
+                'location_id': picking_type_id.default_location_src_id.id  ,
+                'location_dest_id': picking_type_id.default_location_dest_id.id,
                 'company_id': mrp_order.company_id.id,
             }
             self.env['stock.move'].sudo().create(move_vals)
