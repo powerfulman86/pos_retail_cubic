@@ -170,7 +170,7 @@
                     <t t-esc="report.session.order_ids.length"/>
                 </span>
             </div>
-            <div class="receipt-line">
+            <div class="receipt-line"  t-if="pos.config.cash_balance">
                 <span>
                     Cash Register Balance Start
                 </span>
@@ -337,7 +337,7 @@
 <!--                    <t t-esc="widget.format_currency_no_symbol(report.net_gross_total)"/>-->
 <!--                </span>-->
 <!--            </div>-->
-            <div class="receipt-line">
+            <div class="receipt-line"  t-if="pos.config.cash_balance">
                 <span class="amount_total">
                     Cash-Regis Balance End
                 </span>
@@ -345,7 +345,7 @@
                     <t t-esc="widget.format_currency_no_symbol(report.cash_register_balance_end)"/>
                 </span>
             </div>
-            <div class="receipt-line">
+            <div class="receipt-line"  t-if="pos.config.cash_balance">
                 <span class="amount_total">
                     Cash-Regis Balance End Real
                 </span>
@@ -406,7 +406,7 @@
             </div>
             <br />
             <div font='b'>
-                <line>
+                <line  t-if="pos.config.cash_balance">
                     <left>Cash Register Balance Start</left>
                     <right><value t-att-value-decimals='pos.currency.decimals'><t t-esc='report.cash_register_balance_start' /></value></right>
                 </line>

@@ -4,6 +4,7 @@
             <xpath expr="." position="inside">
                 <link rel="stylesheet" href="/pos_retail_cubic/static/src/css/css.css"/>
                 <script type="text/javascript" src="/pos_retail_cubic/static/src/js/js.js"/>
+                <script type="text/javascript" src="/pos_retail_cubic/static/src/js/Payment.js"/>
             </xpath>
         </template>
     </data>

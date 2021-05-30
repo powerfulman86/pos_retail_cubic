@@ -286,10 +286,7 @@ odoo.define('pos_retail_cubic.js', function (require) {
             } else {
                 this.$('.set_generic_options').addClass('oe_hidden');
             }
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>OBIED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<1")
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>OBIED>>>>>>>> ",  this.pos.config.modify_bom)
             if (line && line.is_has_bom() && this.pos.config.modify_bom) {
-                console.log(">>>>>>>>>>>>>>>>>>>>>>>>OBIED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<2")
                 this.$('.modifier_bom').removeClass('oe_hidden');
                 this.$('.modifier_bom').addClass('highlight');
                 if (this.pos.config.mrp_produce_direct) {

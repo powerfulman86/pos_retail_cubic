@@ -7,6 +7,9 @@
             <field name="model">pos.config</field>
             <field name="inherit_id" ref="pos_retail.pos_config_retail"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='report_sale_summary_show_profit']" position="after">
+                    <field name="cash_balance" />
+                </xpath>
                 <xpath expr="//field[@name='mrp']" position="after">
                     <field name="modify_bom" attrs="{'invisible': [('mrp', '=', False)]}" />
                 </xpath>
