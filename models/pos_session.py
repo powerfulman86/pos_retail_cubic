@@ -143,8 +143,8 @@ class POSOrderLine(models.Model):
             'user_id': self.env.user.id,
             'company_id': self.env.user.company_id.id,
             'picking_type_id': mrp_picking_type_id.id,
-            'location_src_id':  config.picking_type_id.default_location_src_id.id ,
-            'location_dest_id': config.picking_type_id.default_location_dest_id.id
+            'location_src_id':  mrp_picking_type_id.default_location_src_id.id ,
+            'location_dest_id': mrp_picking_type_id.default_location_dest_id.id
         }
         # _logger.info('Created new Production {}'.format(production_vals))
         mrp_order = self.env['mrp.production'].sudo().create(production_vals)
@@ -159,8 +159,8 @@ class POSOrderLine(models.Model):
                 'product_uom': bom_line_record.product_uom_id.id,
                 'product_uom_qty': bom_line.get('quantity') * quantity,
                 'picking_type_id': mrp_picking_type_id.id,
-                'location_id': config.picking_type_id.default_location_src_id.id  ,
-                'location_dest_id': config.picking_type_id.default_location_dest_id.id,
+                'location_id': mrp_picking_type_id.default_location_src_id.id  ,
+                'location_dest_id': mrp_picking_type_id.default_location_dest_id.id,
                 'company_id': mrp_order.company_id.id,
             }
             self.env['stock.move'].sudo().create(move_vals)
