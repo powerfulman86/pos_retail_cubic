@@ -2,20 +2,6 @@ from odoo import fields, models, api
 
 
 # _logger = logging.getLogger(__name__)
-
-
-class PosConfig(models.Model):
-    _inherit = 'pos.config'
-    modify_bom = fields.Boolean(string='Modify BOM')
-    cash_balance = fields.Boolean(string='Cash Register Balance')
-    bom_operation_type_id = fields.Many2one('stock.picking.type', "BOM Operation")
-
-    @api.onchange('mrp')
-    def onchange_mrp2(self):
-        if not self.mrp:
-            self.modify_bom = False
-
-
 class PosPaymentMethod(models.Model):
     _inherit = 'pos.payment.method'
 
@@ -110,12 +96,6 @@ class POSOrderLine(models.Model):
     #
 
     def action_create_mrp_production_direct_from_pos(self, config_id, pos_reference, product_id, quantity, bom_lines):
-        print(">>>>>>>>>>>>>>" , config_id)
-        print(">>>>>>>>>>>>>>" , pos_reference)
-        print(">>>>>>>>>>>>>>" , product_id)
-        print(">>>>>>>>>>>>>>" , quantity)
-        print(">>>>>>>>>>>>>>" , bom_lines)
-
         Production = self.env['mrp.production'].sudo()
 
         config = self.env['pos.config'].browse(config_id)
