@@ -30,6 +30,11 @@ class StockWarehouse(models.Model):
                 products.warehouse_product_ids = False
 
 
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+    categ_id = fields.Many2one(related='product_id.categ_id')
+
+
 class StockPickingType(models.Model):
     _inherit = 'stock.picking.type'
 
