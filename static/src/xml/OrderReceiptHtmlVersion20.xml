@@ -14,7 +14,7 @@
         </t>
         <t t-if="receipt.booking_uid">
             <div class="receipt-line">
-                <h5>Booking Ref : <t t-esc='receipt.booking_uid' /></h5>
+                <h5>Booking Ref : <t t-esc='receipt.booking_uid'/></h5>
             </div>
         </t>
         <t class="receipt-header">
@@ -177,14 +177,14 @@
             <t t-if="receipt.internal_ref">
                 <div class="receipt-line">
                     <div class="receipt-line">
-                        <h5>Internal Transfer: <t t-esc='receipt.internal_ref' /></h5>
+                        <h5>Internal Transfer: <t t-esc='receipt.internal_ref'/></h5>
                     </div>
                 </div>
             </t>
             <t t-if="receipt.purchase_ref">
                 <div class="receipt-line">
                     <div class="receipt-line">
-                        <h5>Purchase Order : <t t-esc='receipt.purchase_ref' /></h5>
+                        <h5>Purchase Order : <t t-esc='receipt.purchase_ref'/></h5>
                     </div>
                 </div>
             </t>
@@ -502,9 +502,9 @@
                     </span>
                 </div>
             </t>
-            <t t-if="taxincluded">
+            <t t-if="widget.pos.config.display_tax_receipt">
                 <div data-tag="el_taxes">
-                    <t t-if='taxincluded'>
+                    <t t-if='widget.pos.config.display_tax_receipt'>
                         <t t-foreach='receipt.tax_details' t-as='tax'>
                             <div class="receipt-line">
                                 <t t-esc='tax.name'/>
@@ -514,9 +514,9 @@
                         </t>
                         <div class="receipt-line">
                             <span class="amount_total">Total Taxes</span>
-                            <span t-esc='widget.format_currency_no_symbol(receipt.total_tax)' class="pos-receipt-right-align"/>
+                            <span t-esc='widget.format_currency_no_symbol(receipt.total_tax)'
+                                  class="pos-receipt-right-align"/>
                         </div>
-
                     </t>
                 </div>
             </t>
@@ -598,7 +598,8 @@
     <t t-name="OrderReceiptLineExtra">
         <t t-if="line.discount">
             <div class="product-line-name">
-                Disc: <t t-esc="line.discount"/> %
+                Disc: <t t-esc="line.discount"/>
+                %
             </div>
         </t>
         <t t-if="line.price_extra">
@@ -684,7 +685,8 @@
                 <t t-set='simple'
                    t-value='(line.discount === 0 and line.unit_name === "Units" and line.quantity === 1 and !discount_to_show and !(line.display_discount_policy == "without_discount" &amp;&amp; line.price != line.price_lst))'/>
                 <div class="receipt-row">
-                    <div class="receipt-cell text-left" style="width:100%; line-height: 1.5em !important;font-size: 13px !important;">
+                    <div class="receipt-cell text-left"
+                         style="width:100%; line-height: 1.5em !important;font-size: 13px !important;">
                         <t t-if="widget.pos.config.display_image_receipt">
                             <div class="receipt-line">
                                 <div class="pos-receipt-left-padding">
@@ -693,19 +695,23 @@
                             </div>
                         </t>
                         <t t-call='ProductName'/>
-                        <div class="receipt-cell text-left" style="line-height: 1.5em !important;font-size: 11px !important;">
+                        <div class="receipt-cell text-left"
+                             style="line-height: 1.5em !important;font-size: 11px !important;">
                             <t t-call="OrderReceiptLineExtra"/>
                         </div>
                     </div>
                 </div>
                 <div class="receipt-row" style="display: flex">
-                    <div class="receipt-cell text-left" style="width:30%; line-height: 1.5em !important;font-size: 11px !important;">
+                    <div class="receipt-cell text-left"
+                         style="width:30%; line-height: 1.5em !important;font-size: 11px !important;">
                         <t t-esc="widget.format_currency(line.price)"/>
                     </div>
-                    <div class="receipt-cell text-right" style="width:20%; line-height: 1.5em !important;font-size: 11px !important;">
+                    <div class="receipt-cell text-right"
+                         style="width:20%; line-height: 1.5em !important;font-size: 11px !important;">
                         x <t t-esc="line.quantity"/>
                     </div>
-                    <div class="receipt-cell text-right" style="width:50%; line-height: 1.5em !important;font-size: 11px !important; right: 0px !important; text-align: right !important">
+                    <div class="receipt-cell text-right"
+                         style="width:50%; line-height: 1.5em !important;font-size: 11px !important; right: 0px !important; text-align: right !important">
                         <t t-call="OrderReceiptLinePriceUnit"/>
                     </div>
                 </div>
@@ -1899,12 +1905,14 @@
                                         <t t-call='ProductName'/>
                                         <t t-if="line.discount">
                                             <div class="product-line-name">
-                                                Disc: <t t-esc="line.discount"/> %
+                                                Disc: <t t-esc="line.discount"/>
+                                                %
                                             </div>
                                         </t>
                                         <t t-if="line.price_extra">
                                             <div class="product-line-name">
-                                                Price extra: <t t-esc="widget.format_currency_no_symbol(line.price_extra, 'Price extra')"/>
+                                                Price extra: <t
+                                                    t-esc="widget.format_currency_no_symbol(line.price_extra, 'Price extra')"/>
                                             </div>
                                         </t>
                                         <t t-if="line.discount_extra">
@@ -1994,28 +2002,41 @@
                         <section class="col-md-6">
                         </section>
                         <section class="col-md-6 float-right">
-                            <p class="full-size-p-style" style="font-size: 20px !important; padding: 0px ;font-weight: 400"><span>Sub Total</span> <span class="float-right"><t t-esc='widget.format_currency_no_symbol(receipt.subtotal)'/></span></p>
-                            <p class="full-size-p-style" style="font-size: 20px !important; padding: 0px ;font-weight: 400"><span>Taxes</span> <span class="float-right"><t t-esc="widget.format_currency_no_symbol(receipt.total_tax)"/></span></p>
-                            <p class="full-size-p-style" style="font-size: 20px !important; padding: 0px ;font-weight: 400"> <span>Discount</span> <span class="float-right"><t t-esc="widget.format_currency_no_symbol(receipt.total_discount)"/></span></p>
-                            <p class="full-size-p-style" style="font-size: 20px !important; padding: 0px ;font-weight: 400; border-top: 1px solid black"><span>Total</span> <span class="float-right"><t t-esc='widget.format_currency_no_symbol(receipt.total_with_tax)'/></span></p>
+                            <p class="full-size-p-style"
+                               style="font-size: 20px !important; padding: 0px ;font-weight: 400"><span>Sub Total</span>
+                                <span class="float-right"><t t-esc='widget.format_currency_no_symbol(receipt.subtotal)'/></span></p>
+                            <p class="full-size-p-style"
+                               style="font-size: 20px !important; padding: 0px ;font-weight: 400"><span>Taxes</span>
+                                <span class="float-right"><t t-esc="widget.format_currency_no_symbol(receipt.total_tax)"/></span></p>
+                            <p class="full-size-p-style"
+                               style="font-size: 20px !important; padding: 0px ;font-weight: 400"> <span>Discount</span>
+                                <span class="float-right"><t t-esc="widget.format_currency_no_symbol(receipt.total_discount)"/></span></p>
+                            <p class="full-size-p-style"
+                               style="font-size: 20px !important; padding: 0px ;font-weight: 400; border-top: 1px solid black"><span>Total</span>
+                                <span class="float-right"><t t-esc='widget.format_currency_no_symbol(receipt.total_with_tax)'/></span></p>
                             <t t-if="paymentlines">
                                 <t t-foreach='paymentlines' t-as='line'>
-                                    <p class="full-size-p-style" style="font-size: 20px !important; padding: 0px ;font-weight: 400">
+                                    <p class="full-size-p-style"
+                                       style="font-size: 20px !important; padding: 0px ;font-weight: 400">
                                         <span><t t-esc='line.name'/></span>
                                         <span class="float-right"><t t-esc='widget.format_currency_no_symbol(line.get_amount())'/></span>
                                     </p>
                                 </t>
 
                             </t>
-                            <p class="full-size-p-style" style="font-size: 20px !important; padding: 0px ;font-weight: 400"><span>Change</span> <span class="float-right"><t t-esc="widget.format_currency_no_symbol(receipt.change)"/></span></p>
+                            <p class="full-size-p-style"
+                               style="font-size: 20px !important; padding: 0px ;font-weight: 400"><span>Change</span>
+                                <span class="float-right"><t t-esc="widget.format_currency_no_symbol(receipt.change)"/></span></p>
                         </section>
                     </section>
                     <section class="row" style="margin-top:5px;font-weight:495;">
                         <div class="col-md-6">
                             <t t-if="widget.pos.config.display_pos_order_return_policy">
-                                <p class="full-size-p-style" style="font-size: 20px !important; padding: 0px ;font-weight: 400"> Return Policy Applies </p>
+                                <p class="full-size-p-style"
+                                   style="font-size: 20px !important; padding: 0px ;font-weight: 400"> Return Policy Applies </p>
                                 <t t-if="widget.pos.config.pos_order_return_policy">
-                                    <p class="full-size-p-style" style="font-size: 20px !important; padding: 0px ;font-weight: 400"><t t-esc="widget.pos.config.pos_order_return_policy"/></p>
+                                    <p class="full-size-p-style"
+                                       style="font-size: 20px !important; padding: 0px ;font-weight: 400"><t t-esc="widget.pos.config.pos_order_return_policy"/></p>
                                 </t>
                             </t>
                         </div>
@@ -2027,7 +2048,8 @@
                         </div>
                         <div class="col-md-4">
                             <t t-if="receipt.currency">
-                                <p class="text-center" style="font-size: 20px !important; padding: 0px ;font-weight: 400">
+                                <p class="text-center"
+                                   style="font-size: 20px !important; padding: 0px ;font-weight: 400">
                                     <t t-esc="receipt.currency.name"/>
                                 </p>
                             </t>
@@ -2040,7 +2062,8 @@
                             <p class="text-left" style="font-size: 16px !important">Customer Signature: ........................................</p>
                         </div>
                         <div class="col-md-4">
-                            <p class="text-center" style="font-size: 16px !important"><t t-esc="receipt.date.localestring.split(',')[0]"/> <t t-esc="receipt.date.localestring.split(',')[1]"/></p>
+                            <p class="text-center" style="font-size: 16px !important"><t t-esc="receipt.date.localestring.split(',')[0]"/>
+                                <t t-esc="receipt.date.localestring.split(',')[1]"/></p>
                         </div>
                         <div class="col-md-4">
                             <p class="text-right" style="font-size: 16px !important;margin-right: 5px !important"><t t-esc="receipt.company.website"/></p>

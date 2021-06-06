@@ -1,5 +1,5 @@
 "use strict";
-odoo.define('pos_retail_cubic.screen_payment', function (require) {
+odoo.define('pos_retail_cubic.Payment', function (require) {
 
     var models = require('point_of_sale.models');
     var screens = require('point_of_sale.screens');
@@ -860,47 +860,25 @@ odoo.define('pos_retail_cubic.screen_payment', function (require) {
             if (!this._is_pos_order_paid(order)) {
                 return false
             }
-            // TODO: we checking stock on hand available for sale
+            // TODO : check if order contains bom lines, create mrp for lines
+//            if (this.pos.config.mrp_produce_direct){
+//                var orderlines = order.orderlines.models;
+//                for (var i = 0; i < orderlines.length; i++) {
+//                    var line = orderlines[i];
+//                    console.log(">>>>>>>>>>>>>>>>>>>>>>>>", line.is_has_bom())
+//                    if (this.pos.config.mrp_produce_direct){
+//                        var boms = line.is_has_bom();
+//                        if (boms.length = 1) {
+//                            line.create_mrp_product_direct()
+//                        }
+//                    }
+//                }
+//            }
+             // TODO: we checking stock on hand available for sale
             if (!this.pos.config.allow_order_out_of_stock) {
-                var order = self.pos.get_order();
-                console.log(order, "obied>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..", order.selected_orderline)
-                if (order && order.selected_orderline) {
-                    var lll = order.selected_orderline.create_mrp_product_direct();
-                    console.log("obiedXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", lll)
-                }
                 var orderlines = order.orderlines.models;
                 for (var i = 0; i < orderlines.length; i++) {
                     var line = orderlines[i];
-                    console.log("LIIIIIIIIIIIIIIIIIIIIIIIIIIIne ", line)
-                    console.log("LIIIIIIIIIIIIIIIIIIIIIIIIIIIne ", line['id'])
-                    console.log("LIIIIIIIIIIIIIIIIIIIIIIIIIIIne ", line['quantity'])
-                    console.log("<<<<<<<<<<<<This>>>>>>>>>> ",  this)
-                    console.log("LIIIIIIIIIIIIIIIIIII555555555IIIIIIIIne ", this.pos.bom_line_by_id[line['id']])
-                    console.log("LIIIIIIIIIIIIIIIIIII555555555IIIIIIIIne ",  line.get_bom_lines())
-
-                    rpc.query({
-                            model: 'pos.order.line',
-                            method: 'action_create_mrp_production_direct_from_pos',
-                            args: [[],
-                                this.pos.config['id'],
-                                line['order']['name'],
-                                line['product']['id'],
-                                parseFloat(line['quantity']),
-                                line.get_bom_lines()
-                            ],
-                            context: {}
-                        }, {
-                            shadow: true,
-                            timeout: 60000
-                        }).then(function (mrp_production_value) {
-                            self.pos._do_update_quantity_onhand([mrp_production_value.product_id]);
-                            self.mrp_production_id = mrp_production_value.id;
-                            self.mrp_production_state = mrp_production_value.state;
-                            self.mrp_production_name = mrp_production_value.name;
-                            self.trigger('change', self);
-                            })
-
-
                     var warning_message = line._validate_stock_on_hand();
                     if (warning_message == true) {
                         continue
