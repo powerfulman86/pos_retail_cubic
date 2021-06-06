@@ -15,6 +15,7 @@
         'views/pos_config.xml',
         'views/stock_warehouse.xml',
         'views/pos_session.xml',
+        'report/warehouse_product.xml',
     ],
     'qweb': [
         'static/src/xml/Report.xml',
