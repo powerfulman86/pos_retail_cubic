@@ -60,6 +60,7 @@
                         <field name="warehouse_product_ids">
                             <tree>
                                 <field name="product_id"/>
+                                <field name="categ_id"/>
                                 <field name="quantity" sum="Total"/>
                             </tree>
                         </field>
