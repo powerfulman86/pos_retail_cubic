@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <template id="warehouse_product_template">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.html_container">
+                        <div class="page">
+                            <center>
+                                <h3>
+                                    <strong>Warehouse</strong>
+                                    <strong t-esc="doc.name"/>
+                                    <strong> Products</strong>
+                                </h3>
+                            </center>
+                            <p>Available Products</p>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th> Product </th>
+                                        <th> Category </th>
+                                        <th> Qunatity </th>
+                                    </tr>
+                                </thead>
+                                <t t-foreach="doc.warehouse_product_ids" t-as="line">
+                                    <tr>
+                                        <td><span t-esc="line.product_id.name"/></td>
+                                        <td><span t-esc="line.categ_id.name"/></td>
+                                        <td><span t-esc="line.quantity"/></td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <report
+                id="warehouse_report_id"
+                model="stock.warehouse"
+                report_type="qweb-pdf"
+                string="Warehouse Product"
+                name="pos_retail_cubic.warehouse_product_template"
+                file="pos_retail_cubic.warehouse_product_template"
+        />
+    </data>
+</odoo>
