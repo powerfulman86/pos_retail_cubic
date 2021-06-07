@@ -778,6 +778,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             } else {
                 var amount_total = this.get_total_with_tax();
                 var amount_tax = this.get_total_tax();
+                var amount_discount =   this.get_total_discount();
                 var sub_amount = amount_total - amount_tax;
                 var price = sub_amount - (sub_amount * service.amount / 100)
                 this.add_product(product, {
@@ -999,6 +1000,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
                     body: _t('It not possible apply discount made total paid smaller than 0')
                 })
             } else {
+                this.total_discount =discount;
                 var discount = discount / lines.length;
                 for (var i = 0; i < lines.length; i++) {
                     var line = lines[i];
