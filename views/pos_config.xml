@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- Inherit Form View to Modify it -->
+
+        <menuitem id="point_of_sale.menu_point_of_sale" name="Orders" parent="point_of_sale.menu_point_root"
+                  groups="point_of_sale.group_pos_manager" sequence="10"/>
+        <menuitem id="point_of_sale.pos_config_menu_catalog"
+                  name="Products" groups="point_of_sale.group_pos_manager"
+                  parent="point_of_sale.menu_point_root"/>
+<!--        <menuitem-->
+<!--            id="hr.menu_hr_employee_payroll"-->
+<!--            name="Employees"-->
+<!--            parent="hr.menu_hr_root"-->
+<!--            groups="hr.group_hr_manager"-->
+<!--            sequence="3"/>-->
+
+
+
         <record id="cubic_pos_config_retail" model="ir.ui.view">
             <field name="name">pos.config</field>
             <field name="model">pos.config</field>
             <field name="inherit_id" ref="pos_retail.pos_config_retail"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='report_sale_summary_show_profit']" position="after">
-                    <field name="cash_balance" />
+                    <field name="cash_balance"/>
                 </xpath>
                 <xpath expr="//field[@name='mrp']" position="after">
-                    <field name="modify_bom" attrs="{'invisible': [('mrp', '=', False)]}" />
+                    <field name="modify_bom" attrs="{'invisible': [('mrp', '=', False)]}"/>
                 </xpath>
                 <xpath expr="//field[@name='mrp_produce_direct']" position="after">
-                    <field name="show_mrp_order" attrs="{'invisible': [('mrp', '=', False)]}" />
+                    <field name="show_mrp_order" attrs="{'invisible': [('mrp', '=', False)]}"/>
                 </xpath>
 
             </field>

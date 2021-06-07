@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cubic_pos_sale_report_form_view" model="ir.ui.view">
+            <field name="name">pos.sale.report</field>
+            <field name="model">pos.sale.report</field>
+            <field name="inherit_id" ref="pos_retail.pos_sale_report_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='session_ids']" position="before">
+                    <field name="current_user" invisible="1"/>
+                    <field name="config_ids" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='session_ids']" position="attributes">
+                    <attribute name="domain"># [('config_id', 'in', config_ids)]</attribute>
+                    <attribute name="domain">[('state', '=', 'closed')]</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

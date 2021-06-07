@@ -10,10 +10,12 @@
 
     # always loaded
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/import.xml',
         'views/pos_config.xml',
         'views/stock_warehouse.xml',
+        'views/pos_sale_report.xml',
         'views/pos_session.xml',
         'report/warehouse_product.xml',
     ],
