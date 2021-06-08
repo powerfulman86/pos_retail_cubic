@@ -28,6 +28,13 @@
                 <xpath expr="//field[@name='cash_register_balance_end_real']" position="attributes">
                     <attribute name="groups">point_of_sale.group_pos_manager,pos_retail.group_branch_manager</attribute>
                 </xpath>
+                <xpath expr="//field[@name='cash_register_difference']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state', 'in', ('new_session', 'opening_control', 'opened'))]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_show_payments_list']" position="attributes">
+                    <attribute name="attrs">{
+                        'invisible': [('state', 'in', ('new_session', 'opening_control', 'opened'))]}</attribute>
+                </xpath>
 
             </field>
         </record>
