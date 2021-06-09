@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="pos_retail_cubic_pos_sale_report_template" inherit_id="pos_retail.pos_sale_report_template">
+            <xpath expr="//span[contains(@t-esc,'o.cash_register_balance_end_real')]" position="after">
+                <tr>
+                    <td class="text-left">
+                        Differance
+                    </td>
+                    <td class="text-right">
+                        <span t-esc="o.cash_register_balance_end_real - o.cash_register_balance_start"
+                              t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                    </td>
+                </tr>
+
+            </xpath>
+        </template>
+    </data>
+</odoo>

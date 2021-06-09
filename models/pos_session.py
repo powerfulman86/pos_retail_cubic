@@ -1,4 +1,5 @@
-from odoo import fields, models, api
+from odoo import fields, models, api, _
+from odoo.exceptions import ValidationError
 
 
 # _logger = logging.getLogger(__name__)
@@ -17,6 +18,29 @@ class PosPaymentMethod(models.Model):
 
 class PosSession(models.Model):
     _inherit = "pos.session"
+    ended = fields.Boolean('ended', compute="compute_end")
+
+    @api.depends('cash_register_balance_end_real')
+    def compute_end(self):
+        for rec in self:
+            rec.ended = False
+            if rec.cash_register_balance_end_real > 0 and rec.state != 'closed':
+                rec.ended = True
+            # if self.env.user.has_group('point_of_sale.group_pos_manager'):
+            #     rec.ended = False
+
+    def open_cashbox_pos(self):
+        self.ensure_one()
+        for rec in self:
+            # and not self.env.user.has_group('point_of_sale.group_pos_manager')
+            if rec.cash_register_balance_end_real > 0:
+                raise ValidationError(_("Can Not Do This NOW"))
+        action = self.cash_register_id.open_cashbox_id()
+        action['view_id'] = self.env.ref('point_of_sale.view_account_bnk_stmt_cashbox_footer').id
+        action['context']['pos_session_id'] = self.id
+        action['context']['default_pos_id'] = self.config_id.id
+        return action
+
 
     def print_z_report(self):
         datas = {
