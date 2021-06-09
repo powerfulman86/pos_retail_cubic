@@ -11,6 +11,7 @@
     # always loaded
     'data': [
         'security/security.xml',
+        'security/pos_config.xml',
         'security/ir.model.access.csv',
         'views/import.xml',
         'views/pos_config.xml',

@@ -18,7 +18,6 @@
             <field name="model">pos.session</field>
             <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
             <field name="arch" type="xml">
-
                 <xpath expr="//field[@name='cash_register_total_entry_encoding']" position="attributes">
                     <attribute name="groups">point_of_sale.group_pos_manager,pos_retail.group_branch_manager</attribute>
                 </xpath>
@@ -29,15 +28,19 @@
                     <attribute name="groups">point_of_sale.group_pos_manager,pos_retail.group_branch_manager</attribute>
                 </xpath>
                 <xpath expr="//field[@name='cash_register_difference']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('state', 'in', ('new_session', 'opening_control', 'opened'))]}</attribute>
+                    <attribute name="attrs">{
+                        'invisible': [('state', 'in', ('new_session', 'opening_control', 'opened'))]}</attribute>
                 </xpath>
                 <xpath expr="//button[@name='action_show_payments_list']" position="attributes">
                     <attribute name="attrs">{
                         'invisible': [('state', 'in', ('new_session', 'opening_control', 'opened'))]}</attribute>
                 </xpath>
-
+                <xpath expr="//header" position="inside">
+                    <button name="print_z_report" type="object" string="z report"/>
+                </xpath>
             </field>
         </record>
+
 
         <record id="cubic_view_pos_config_kanban" model="ir.ui.view">
             <field name="name">pos.config.kanban.view</field>

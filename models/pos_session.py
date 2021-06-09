@@ -15,6 +15,19 @@ class PosPaymentMethod(models.Model):
                                             help='Account used as counterpart of the income account in the accounting entry representing the pos sales.')
 
 
+class PosSession(models.Model):
+    _inherit = "pos.session"
+
+    def print_z_report(self):
+        datas = {
+            'ids': self._ids,
+            'form': self.read()[0],
+            'model': 'pos.sale.report'
+        }
+        datas['form']['session_ids'] = self.id
+        return self.env.ref('pos_retail.report_pos_sales_pdf').report_action(self, data=datas)
+
+
 class POSOrderLine(models.Model):
     _inherit = "pos.order.line"
 
@@ -123,7 +136,7 @@ class POSOrderLine(models.Model):
             'user_id': self.env.user.id,
             'company_id': self.env.user.company_id.id,
             'picking_type_id': mrp_picking_type_id.id,
-            'location_src_id':  mrp_picking_type_id.default_location_src_id.id ,
+            'location_src_id': mrp_picking_type_id.default_location_src_id.id,
             'location_dest_id': mrp_picking_type_id.default_location_dest_id.id
         }
         # _logger.info('Created new Production {}'.format(production_vals))
@@ -139,8 +152,9 @@ class POSOrderLine(models.Model):
                 'product_uom': bom_line_record.product_uom_id.id,
                 'product_uom_qty': bom_line.get('quantity') * quantity,
                 'picking_type_id': mrp_picking_type_id.id,
-                'location_id': mrp_picking_type_id.default_location_src_id.id  ,
-                'location_dest_id': mrp_order.product_id.with_context(force_company=self.company_id.id).property_stock_production.id,
+                'location_id': mrp_picking_type_id.default_location_src_id.id,
+                'location_dest_id': mrp_order.product_id.with_context(
+                    force_company=self.company_id.id).property_stock_production.id,
                 'company_id': mrp_order.company_id.id,
             }
             self.env['stock.move'].sudo().create(move_vals)
