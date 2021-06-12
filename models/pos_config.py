@@ -12,11 +12,12 @@ class PosSaleReport(models.TransientModel):
     def _get_current_user(self):
         for rec in self:
             rec.current_user = self.env.user
-            rec.config_ids = [(6,0, [self.env.user.pos_config_id.id])] if self.env.user.pos_config_id else [(6,0, [])]
+            rec.config_ids = [(6, 0, [self.env.user.pos_config_id.id])] if self.env.user.pos_config_id else [(6, 0, [])]
             if self.env.user.has_group('pos_retail.group_branch_manager') or \
-                self.env.user.has_group('pos_retail.group_pos_report') or \
-                self.env.user.has_group('point_of_sale.group_pos_manager'):
+                    self.env.user.has_group('pos_retail.group_pos_report') or \
+                    self.env.user.has_group('point_of_sale.group_pos_manager'):
                 rec.config_ids = [(6, 0, self.env['pos.config'].search([]).ids)]
+
 
 class PosConfig(models.Model):
     _inherit = 'pos.config'

@@ -18,39 +18,48 @@
             <field name="model">pos.session</field>
             <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='cash_register_balance_start']/../.." position="after">
-                    <field name="ended" invisible="0" />
-                </xpath>
-                <xpath expr="//field[@name='cash_register_difference']/.." position="attributes">
-                    <attribute name="attrs">{'invisible':[('ended', '=', False)]}</attribute>
-                </xpath>
-                <xpath expr="//field[@name='cash_register_balance_start']/../.." position="attributes">
-                    <attribute name="attrs">{'invisible':[('ended', '=', False)]}</attribute>
+                <xpath expr="//page[@name='statements']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//button[@name='%(point_of_sale.action_pos_box_out)d']" position="attributes">
-                    <attribute name="attrs">{'invisible':[('ended', '=', False)]}</attribute>
+                    <attribute name="attrs">{'invisible': [('state', 'in', ('new_session', 'opening_control',
+                        'opened','closing_control'))]}
+                    </attribute>
                 </xpath>
+                <xpath expr="//field[@name='cash_register_difference']/../.." position="after">
+                    <field name="ended" invisible="1"/>
+                </xpath>
+                <!--                <xpath expr="//button[@name='open_cashbox_pos']" position="replace">-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//button[@name='open_cashbox_pos']" position="replace">-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//button[@name='open_cashbox_pos']" position="attributes">-->
+                <!--                    <attribute name="attrs">{'visible': [('state', '=', 'closed')]}</attribute>-->
+                <!--                </xpath>-->
 
                 <xpath expr="//field[@name='cash_register_total_entry_encoding']" position="attributes">
-                    <attribute name="groups">point_of_sale.group_pos_manager,pos_retail.group_branch_manager</attribute>
+                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='cash_register_balance_end']" position="attributes">
-                    <attribute name="groups">point_of_sale.group_pos_manager,pos_retail.group_branch_manager</attribute>
+                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}
+                    </attribute>
                 </xpath>
                 <xpath expr="//field[@name='cash_register_balance_end_real']" position="attributes">
-                    <attribute name="groups">point_of_sale.group_pos_manager,pos_retail.group_branch_manager</attribute>
+                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}
+                    </attribute>
                 </xpath>
                 <xpath expr="//field[@name='cash_register_difference']" position="attributes">
-                    <attribute name="attrs">{
-                        'invisible': [('state', 'in', ('new_session', 'opening_control', 'opened'))]}</attribute>
+                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//button[@name='action_show_payments_list']" position="attributes">
                     <attribute name="attrs">{
-                        'invisible': [('state', 'in', ('new_session', 'opening_control', 'opened'))]}</attribute>
+                        'invisible': [('ended', '=', False)]}
+                    </attribute>
                 </xpath>
                 <xpath expr="//button[@name='action_view_order']" position="attributes">
                     <attribute name="attrs">{
-                        'invisible': [('state', 'in', ('new_session', 'opening_control', 'opened'))]}</attribute>
+                        'invisible': [('ended', '=', False)]}
+                    </attribute>
                 </xpath>
                 <xpath expr="//header" position="inside">
                     <button name="print_z_report" type="object" string="z report"/>

@@ -5,14 +5,13 @@
             <xpath expr="//span[contains(@t-esc,'o.cash_register_balance_end_real')]" position="after">
                 <tr>
                     <td class="text-left">
-                        Differance
+                        Cash Differance
                     </td>
                     <td class="text-right">
-                        <span t-esc="o.cash_register_balance_end_real - o.cash_register_balance_start"
+                        <span t-esc="o.cash_register_difference"
                               t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
                     </td>
                 </tr>
-
             </xpath>
         </template>
     </data>
