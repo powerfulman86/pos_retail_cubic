@@ -26,6 +26,7 @@
     'qweb': [
         'static/src/xml/Report.xml',
         'static/src/xml/OrderReceiptHtmlVersion20.xml',
+        'static/src/xml/KeyboardGuideWdiget.xml',
     ],
 
 }

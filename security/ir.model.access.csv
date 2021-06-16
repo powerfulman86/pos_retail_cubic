@@ -1,13 +1,13 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_account_cash_rounding,account.cash.rounding,account.model_account_cash_rounding,point_of_sale.group_pos_user,1,0,0,0
-access_stock_production_lot_user,stock.production.lot,stock.model_stock_production_lot,point_of_sale.group_pos_user,1,0,0,0
-access_mrp_bom_pos,mrp.bom,mrp.model_mrp_bom,point_of_sale.group_pos_user,1,0,0,0
-access_mrp_bom_line_pos,mrp.bom.line,mrp.model_mrp_bom_line,point_of_sale.group_pos_user,1,0,0,0
-access_mail_alias_pos,mail.alias,mail.model_mail_alias,point_of_sale.group_pos_user,1,0,0,0
-access_mrp_production_pos,mrp.production user,mrp.model_mrp_production,point_of_sale.group_pos_user,1,0,0,0
-access_account_move_pos,account.move,account.model_account_move,point_of_sale.group_pos_user,1,1,1,0
-access_account_move_line_pos,account.move.line,account.model_account_move_line,point_of_sale.group_pos_user,1,1,1,0
-access_account_payment_method_pos,account.payment.method,account.model_account_payment_method,point_of_sale.group_pos_user,1,1,1,0
-access_account_payment_pos,account.payment,account.model_account_payment,point_of_sale.group_pos_user,1,1,1,0
-access_account_partial_pos,account.partial.reconcile,account.model_account_partial_reconcile,point_of_sale.group_pos_user,1,1,1,0
-access_account_full_reconcile_pos,account.full.reconcile,account.model_account_full_reconcile,point_of_sale.group_pos_user,1,1,1,0
+access_account_cash_rounding,account.cash.rounding,account.model_account_cash_rounding,pos_retail.group_branch_user,1,0,0,0
+access_stock_production_lot_user,stock.production.lot,stock.model_stock_production_lot,pos_retail.group_branch_user,1,0,0,0
+access_mrp_bom_pos,mrp.bom,mrp.model_mrp_bom,pos_retail.group_branch_user,1,0,0,0
+access_mrp_bom_line_pos,mrp.bom.line,mrp.model_mrp_bom_line,pos_retail.group_branch_user,1,0,0,0
+access_mail_alias_pos,mail.alias,mail.model_mail_alias,pos_retail.group_branch_user,1,0,0,0
+access_mrp_production_pos,mrp.production user,mrp.model_mrp_production,pos_retail.group_branch_user,1,0,0,0
+access_account_move_pos,account.move,account.model_account_move,pos_retail.group_branch_user,1,1,1,0
+access_account_move_line_pos,account.move.line,account.model_account_move_line,pos_retail.group_branch_user,1,1,1,0
+access_account_payment_method_pos,account.payment.method,account.model_account_payment_method,pos_retail.group_branch_user,1,1,1,0
+access_account_payment_pos,account.payment,account.model_account_payment,pos_retail.group_branch_user,1,1,1,0
+access_account_partial_pos,account.partial.reconcile,account.model_account_partial_reconcile,pos_retail.group_branch_user,1,1,1,0
+access_account_full_reconcile_pos,account.full.reconcile,account.model_account_full_reconcile,pos_retail.group_branch_user,1,1,1,0

@@ -41,25 +41,19 @@
                     <attribute name="attrs">{'invisible': [('ended', '=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='cash_register_balance_end']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}
-                    </attribute>
+                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='cash_register_balance_end_real']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}
-                    </attribute>
+                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='cash_register_difference']" position="attributes">
                     <attribute name="attrs">{'invisible': [('ended', '=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//button[@name='action_show_payments_list']" position="attributes">
-                    <attribute name="attrs">{
-                        'invisible': [('ended', '=', False)]}
-                    </attribute>
+                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//button[@name='action_view_order']" position="attributes">
-                    <attribute name="attrs">{
-                        'invisible': [('ended', '=', False)]}
-                    </attribute>
+                    <attribute name="attrs">{'invisible': [('ended', '=', False)]}</attribute>
                 </xpath>
                 <xpath expr="//header" position="inside">
                     <button name="print_z_report" type="object" string="z report"/>

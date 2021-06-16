@@ -27,7 +27,8 @@ class PosSession(models.Model):
     def compute_end(self):
         for rec in self:
             rec.ended = False
-            if rec.cash_register_balance_end_real > 0 and rec.state != 'closed':
+            if (rec.cash_register_balance_end_real > 0 and rec.state != 'closed') or self.env.user.has_group(
+                    'point_of_sale.group_pos_manager'):
                 rec.ended = True
             # if self.env.user.has_group('point_of_sale.group_pos_manager'):
             #     rec.ended = False
