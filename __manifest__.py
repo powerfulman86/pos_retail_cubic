@@ -16,10 +16,12 @@
 
         'views/import.xml',
         'views/pos_config.xml',
+        'views/pos_reporting.xml',
         'views/stock_warehouse.xml',
         'views/pos_sale_report.xml',
         'views/pos_session.xml',
 
+        'report/pos_analysis.xml',
         'report/pos_sale_report_template.xml',
         'report/warehouse_product.xml',
     ],

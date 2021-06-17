@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="pos_retail.pos_sale_analytic_pivot" model="ir.ui.view">
+            <field name="name">pos.sale.analytic.pivot</field>
+            <field name="model">pos.sale.analytic</field>
+            <field name="arch" type="xml">
+                <pivot string="POS orders and Sale Orders">
+                    <field name="name" type="row"/>
+                    <field name="date" type="row"/>
+                    <field name="product_id" type="row"/>
+                    <field name="product_categ_id" type="row"/>
+                    <field name="pos_branch_id" type="col"/>
+                    <field name="origin" type="col"/>
+                    <field name="date" type="row" interval="month"/>
+                    <field name="qty" type="measure"/>
+                    <field name="sale_total" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        <record id="pos_retail.pos_sale_analytic_graph" model="ir.ui.view">
+            <field name="name">pos.sale.analytic.graph</field>
+            <field name="model">pos.sale.analytic</field>
+            <field name="arch" type="xml">
+                <graph string="POS orders and Sale Orders">
+                    <field name="name" type="measure"/>
+                    <field name="date" type="measure"/>
+                    <field name="product_id" type="measure"/>
+                    <field name="product_categ_id" type="measure"/>
+                    <field name="pos_branch_id" type="col"/>
+                    <field name="date" type="col"/>
+                    <field name="origin" type="col"/>
+                    <field name="qty" type="measure"/>
+                    <field name="sale_total" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
