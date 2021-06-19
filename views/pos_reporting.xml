@@ -3,7 +3,7 @@
     <data>
 
         <menuitem id="point_of_sale.menu_point_rep"
-                  name="ReportingGGGGGGGGGGG"
+                  name="Report"
                   parent="point_of_sale.menu_point_root"
                   sequence="90"
                   groups="pos_retail.group_branch_manager"/>

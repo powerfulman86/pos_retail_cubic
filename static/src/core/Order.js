@@ -1456,6 +1456,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             })
         },
         set_discount_price: function () {
+//            console.log('========== *** 3rd =========')
             var self = this;
             var order = this;
             var selected_line = order.get_selected_orderline();
@@ -2484,6 +2485,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             }
         },
         set_discount_price: function (price_will_discount, tax) {
+//            console.log('========== *** 4th =========')
             if (tax.include_base_amount) {
                 var line_subtotal = this.get_price_with_tax() / this.quantity;
                 var tax_before_discount = (line_subtotal - line_subtotal / (1 + tax.amount / line_subtotal));
@@ -2655,7 +2657,8 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             }
         },
         get_unit_price: function () {
-            var unit_price = _super_Orderline.get_unit_price.apply(this, arguments);
+//            var unit_price = _super_Orderline.get_unit_price.apply(this, arguments);
+            var unit_price = this.price;
             if (this.price_extra) {
                 unit_price += this.price_extra;
             }
@@ -2753,6 +2756,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             }
         },
         set_discount_to_line: function (discount) {
+            console.log('========== *** 6th =========')
             if (discount != 0) {
                 this.discount_reason = discount.reason;
                 this.set_discount(discount.amount);
@@ -2954,6 +2958,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
         },
         // TODO: method return disc value each line
         get_price_discount: function () {
+//            console.log('========== *** 6th =========')
             var price = this.get_unit_price() * (1.0 - (this.get_discount() / 100.0));
             var base_price = this.get_unit_price();
             return (base_price - price) * this.quantity
@@ -2987,7 +2992,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             }
         },
         create_mrp_product_direct: function () {
-            console.log("5566699333333")
+//            console.log("5566699333333")
             var self = this;
             var bom_lines_set = this.get_bom_lines();
             if (bom_lines_set) {
@@ -3291,11 +3296,13 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             return merge
         },
         callback_set_discount: function (discount) {
+//            console.log('========== *** 7th =========')
             this.pos.config.validate_discount_change = false;
             this.set_discount(discount);
             this.pos.config.validate_discount_change = true;
         },
         set_discount: function (discount) {
+//            console.log('========== *** 8th =========')
             var the_first_load = this.pos.the_first_load;
             if (!the_first_load && this.pos.config.validate_discount_change) {
                 return this.pos._validate_by_manager("this.pos.get_order().get_selected_orderline().callback_set_discount(" + discount + ")", 'Validate set Discount: ' + discount + ' % ');

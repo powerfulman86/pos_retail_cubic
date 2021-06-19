@@ -2,6 +2,7 @@
 <templates id="template" xml:space="preserve">
 
     <t t-name="OrderReceiptHeader">
+        <t t-set="extra_discount" t-value="0"/>
         <t t-if="receipt.company.logo and widget.pos.config.display_logo">
             <div class="receipt-logo-header">
                 <img class="pos-receipt-logo" t-att-src='receipt.company.logo' alt="Logo"/>
@@ -421,7 +422,6 @@
     </t>
 
     <t t-name="OrderReceiptFooter">
-
         <div data-tag="el_footer">
             <div data-tag="el_total">
                 <t t-set='taxincluded' t-value='Math.abs(receipt.subtotal - receipt.total_with_tax) &lt;= 0.000001'/>
@@ -493,6 +493,13 @@
                     <t t-esc="widget.format_currency_no_symbol(receipt.change)"/>
                 </span>
             </div>
+
+<!--            <div class="receipt-line">-->
+                <span>Extra Discount</span>
+                <span class="pos-receipt-right-align">
+                    <t t-esc="extra_discount"/>
+                </span>
+<!--            </div>-->
 
             <t t-if='receipt.total_discount'>
                 <div class="receipt-line">
@@ -682,6 +689,7 @@
         <div class="table">
             <t t-foreach='orderlines' t-as='line'>
                 <t t-set="product" t-value="line.get_product()"/>
+                <t t-set="extra_discount" t-value="100"/>
                 <t t-set='simple'
                    t-value='(line.discount === 0 and line.unit_name === "Units" and line.quantity === 1 and !discount_to_show and !(line.display_discount_policy == "without_discount" &amp;&amp; line.price != line.price_lst))'/>
                 <div class="receipt-row">

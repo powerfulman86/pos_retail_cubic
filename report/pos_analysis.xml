@@ -6,15 +6,12 @@
             <field name="name">pos.sale.analytic.pivot</field>
             <field name="model">pos.sale.analytic</field>
             <field name="arch" type="xml">
-                <pivot string="POS orders and Sale Orders">
-                    <field name="name" type="row"/>
-                    <field name="date" type="row"/>
-                    <field name="product_id" type="row"/>
+                <pivot string="POS Orders">
                     <field name="product_categ_id" type="row"/>
                     <field name="pos_branch_id" type="col"/>
-                    <field name="origin" type="col"/>
-                    <field name="date" type="row" interval="month"/>
                     <field name="qty" type="measure"/>
+                    <field name="discount_total" type="measure"/>
+                    <field name="discount_extra" type="measure"/>
                     <field name="sale_total" type="measure"/>
                 </pivot>
             </field>
@@ -23,20 +20,15 @@
             <field name="name">pos.sale.analytic.graph</field>
             <field name="model">pos.sale.analytic</field>
             <field name="arch" type="xml">
-                <graph string="POS orders and Sale Orders">
-                    <field name="name" type="measure"/>
-                    <field name="date" type="measure"/>
-                    <field name="product_id" type="measure"/>
-                    <field name="product_categ_id" type="measure"/>
+                <graph string="POS Orders">
                     <field name="pos_branch_id" type="col"/>
-                    <field name="date" type="col"/>
-                    <field name="origin" type="col"/>
+                    <field name="date" type="row"/>
                     <field name="qty" type="measure"/>
                     <field name="sale_total" type="measure"/>
+                    <field name="discount_total" type="measure"/>
+                    <field name="discount_extra" type="measure"/>
                 </graph>
             </field>
         </record>
-
-
     </data>
 </odoo>
