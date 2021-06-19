@@ -494,12 +494,35 @@
                 </span>
             </div>
 
-<!--            <div class="receipt-line">-->
-                <span>Extra Discount</span>
-                <span class="pos-receipt-right-align">
+            <!--            <div class="receipt-line">-->
+
+            <t t-set="extra_discount2" t-value="0"/>
+            <span>Extra Discount</span>
+            <t t-foreach='orderlines' t-as='line'>
+
+<!--                <t t-set="extra_discount2" t-value="0"/>-->
+                <t t-set="price2" t-value="line.price" />
+                <t t-set="price_extra2" t-value="line.price"/>
+                <!--                <t t-set="price_extra2" t-value="line.price_extra" digits="(14, 3)"/>-->
+                <t t-if="line.price_extra">
+                    <t t-set="extra_discount2" t-value="price_extra2-price2"/>
+                    <p>YES</p>
+                </t>
+                <t t-if="!line.price_extra">
+                    <p>No</p>
+                    <t t-set="extra_discount2" t-value="-price2"/>
+                </t>
+                <br/>
+            </t>
+            <p>
+                <p>XXXXXXXX</p>
+                <t t-esc="extra_discount2"/>
+            </p>
+
+            <span class="pos-receipt-right-align">
                     <t t-esc="extra_discount"/>
                 </span>
-<!--            </div>-->
+            <!--            </div>-->
 
             <t t-if='receipt.total_discount'>
                 <div class="receipt-line">
@@ -1808,24 +1831,29 @@
                             <table class="full-size">
                                 <tr>
                                     <td class="text-left"><i class="fa fa-home"></i></td>
-                                    <td style="padding-left: 0mm" class="text-right"><t t-esc="receipt.company.contact_address"/></td>
+                                    <td style="padding-left: 0mm"
+                                        class="text-right"><t t-esc="receipt.company.contact_address"/></td>
                                 </tr>
                                 <tr>
                                     <td class="text-left"><i class="fa fa-phone"></i></td>
-                                    <td style="padding-left: 0mm" class="text-right"><t t-esc="receipt.company.phone or ''"/></td>
+                                    <td style="padding-left: 0mm"
+                                        class="text-right"><t t-esc="receipt.company.phone or ''"/></td>
                                 </tr>
                                 <tr>
                                     <td class="text-left">VAT</td>
-                                    <td style="padding-left: 0mm" class="text-right"><t t-esc="receipt.company.vat or ''"/></td>
+                                    <td style="padding-left: 0mm"
+                                        class="text-right"><t t-esc="receipt.company.vat or ''"/></td>
                                 </tr>
                                 <tr>
                                     <td class="text-left"><i class="fa fa-envelope"></i></td>
-                                    <td style="padding-left: 0mm" class="text-right"><t t-esc="receipt.company.email or ''"/></td>
+                                    <td style="padding-left: 0mm"
+                                        class="text-right"><t t-esc="receipt.company.email or ''"/></td>
                                 </tr>
                                 <tr>
                                     <td class="text-left"><i class="fa fa-building"></i></td>
                                     <t t-if="order.location">
-                                        <td style="padding-left: 0mm" class="text-right"><t t-esc="order.location.name or ''"/></td>
+                                        <td style="padding-left: 0mm"
+                                            class="text-right"><t t-esc="order.location.name or ''"/></td>
                                     </t>
                                 </tr>
                                 <tr>
@@ -1841,36 +1869,42 @@
                             <table class="full-size">
                                 <tr>
                                     <td class="text-left">Order Ref</td>
-                                    <td style="padding-left: 0mm" class="text-right add-right"><t t-esc="receipt.name"/></td>
+                                    <td style="padding-left: 0mm"
+                                        class="text-right add-right"><t t-esc="receipt.name"/></td>
                                 </tr>
                                 <tr>
                                     <td class="text-left"><i class="fa fa-user"></i></td>
                                     <t t-if="client">
-                                        <td style="padding-left: 0mm" class="text-right add-right"><t t-esc="client.name"/></td>
+                                        <td style="padding-left: 0mm"
+                                            class="text-right add-right"><t t-esc="client.name"/></td>
                                     </t>
                                 </tr>
                                 <tr>
                                     <td class="text-left"><i class="fa fa-phone"></i></td>
                                     <t t-if="client">
-                                        <td style="padding-left: 0mm" class="text-right add-right"><t t-esc="client.phone or ''"/></td>
+                                        <td style="padding-left: 0mm"
+                                            class="text-right add-right"><t t-esc="client.phone or ''"/></td>
                                     </t>
                                 </tr>
                                 <tr>
                                     <td class="text-left"><i class="fa fa-map-marker"></i></td>
                                     <t t-if="client">
-                                        <td style="padding-left: 0mm" class="text-right add-right"><t t-esc="client.street or ''"/></td>
+                                        <td style="padding-left: 0mm"
+                                            class="text-right add-right"><t t-esc="client.street or ''"/></td>
                                     </t>
                                 </tr>
                                 <tr>
                                     <td class="text-left"><i class="fa fa-building"></i></td>
                                     <t t-if="client">
-                                        <td style="padding-left: 0mm" class="text-right add-right"><t t-esc="client.street2 or ''"/></td>
+                                        <td style="padding-left: 0mm"
+                                            class="text-right add-right"><t t-esc="client.street2 or ''"/></td>
                                     </t>
                                 </tr>
                                 <tr>
                                     <td class="text-left"><i class="fa fa-envelope"></i></td>
                                     <t t-if="client">
-                                        <td style="padding-left: 0mm" class="text-right add-right"><t t-esc="client.email or ''"/></td>
+                                        <td style="padding-left: 0mm"
+                                            class="text-right add-right"><t t-esc="client.email or ''"/></td>
                                     </t>
                                 </tr>
                             </table>
@@ -2070,11 +2104,13 @@
                             <p class="text-left" style="font-size: 16px !important">Customer Signature: ........................................</p>
                         </div>
                         <div class="col-md-4">
-                            <p class="text-center" style="font-size: 16px !important"><t t-esc="receipt.date.localestring.split(',')[0]"/>
+                            <p class="text-center"
+                               style="font-size: 16px !important"><t t-esc="receipt.date.localestring.split(',')[0]"/>
                                 <t t-esc="receipt.date.localestring.split(',')[1]"/></p>
                         </div>
                         <div class="col-md-4">
-                            <p class="text-right" style="font-size: 16px !important;margin-right: 5px !important"><t t-esc="receipt.company.website"/></p>
+                            <p class="text-right"
+                               style="font-size: 16px !important;margin-right: 5px !important"><t t-esc="receipt.company.website"/></p>
                         </div>
                     </section>
                 </div>
