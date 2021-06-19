@@ -2,7 +2,6 @@
 <templates id="template" xml:space="preserve">
 
     <t t-name="OrderReceiptHeader">
-        <t t-set="extra_discount" t-value="0"/>
         <t t-if="receipt.company.logo and widget.pos.config.display_logo">
             <div class="receipt-logo-header">
                 <img class="pos-receipt-logo" t-att-src='receipt.company.logo' alt="Logo"/>
@@ -466,6 +465,21 @@
                 </div>
             </div>
             <!-- Payment Lines -->
+            <div class="receipt-line">
+                <t t-set="extra_discount" t-value="0"/>
+                <t t-foreach='orderlines' t-as='line'>
+                    <t t-if="line.price and line.discount_extra">
+                        <t t-set="extra_discount"
+                           t-value="extra_discount + (line.price * (line.discount_extra/100) * line.quantity)"/>
+                    </t>
+                </t>
+                <t t-if="extra_discount">
+                <span>Discount Extra</span>
+                <span class="pos-receipt-right-align">
+                    <t t-esc="widget.format_currency_no_symbol(extra_discount)"/>
+                </span>
+                </t>
+            </div>
             <div class="receipt-line" style="text-align: right; float: right">
                 -------------
             </div>
@@ -493,36 +507,6 @@
                     <t t-esc="widget.format_currency_no_symbol(receipt.change)"/>
                 </span>
             </div>
-
-            <!--            <div class="receipt-line">-->
-
-            <t t-set="extra_discount2" t-value="0"/>
-            <span>Extra Discount</span>
-            <t t-foreach='orderlines' t-as='line'>
-
-<!--                <t t-set="extra_discount2" t-value="0"/>-->
-                <t t-set="price2" t-value="line.price" />
-                <t t-set="price_extra2" t-value="line.price"/>
-                <!--                <t t-set="price_extra2" t-value="line.price_extra" digits="(14, 3)"/>-->
-                <t t-if="line.price_extra">
-                    <t t-set="extra_discount2" t-value="price_extra2-price2"/>
-                    <p>YES</p>
-                </t>
-                <t t-if="!line.price_extra">
-                    <p>No</p>
-                    <t t-set="extra_discount2" t-value="-price2"/>
-                </t>
-                <br/>
-            </t>
-            <p>
-                <p>XXXXXXXX</p>
-                <t t-esc="extra_discount2"/>
-            </p>
-
-            <span class="pos-receipt-right-align">
-                    <t t-esc="extra_discount"/>
-                </span>
-            <!--            </div>-->
 
             <t t-if='receipt.total_discount'>
                 <div class="receipt-line">
@@ -573,7 +557,6 @@
             <div class='after-footer'>
                 <t t-foreach='paymentlines' t-as='line'>
                     <t t-if='line.ticket'>
-
                         <div class="pos-payment-terminal-receipt">
                             <t t-raw='line.ticket'/>
                         </div>
@@ -712,7 +695,6 @@
         <div class="table">
             <t t-foreach='orderlines' t-as='line'>
                 <t t-set="product" t-value="line.get_product()"/>
-                <t t-set="extra_discount" t-value="100"/>
                 <t t-set='simple'
                    t-value='(line.discount === 0 and line.unit_name === "Units" and line.quantity === 1 and !discount_to_show and !(line.display_discount_policy == "without_discount" &amp;&amp; line.price != line.price_lst))'/>
                 <div class="receipt-row">
