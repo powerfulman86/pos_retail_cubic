@@ -422,6 +422,7 @@
 
     <t t-name="OrderReceiptFooter">
         <div data-tag="el_footer">
+            <t t-set="extra_discount" t-value="0"/>
             <div data-tag="el_total">
                 <t t-set='taxincluded' t-value='Math.abs(receipt.subtotal - receipt.total_with_tax) &lt;= 0.000001'/>
                 <t t-if='!taxincluded'>
@@ -453,6 +454,29 @@
                 <div class="receipt-line" style="text-align: right">
                     -------------
                 </div>
+                <!--discount extra-->
+                <t t-foreach='orderlines' t-as='line'>
+                    <t t-if="line.price and line.discount_extra">
+                        <t t-set="extra_discount"
+                           t-value="extra_discount + (line.price * (line.discount_extra/100) * line.quantity)"/>
+                    </t>
+                </t>
+                <t t-if="extra_discount">
+                    <t t-set="total_with_disocunt" t-value="extra_discount + receipt.total_with_tax"/>
+                    <div class="receipt-line">
+                    <span>Total + Discount Extra</span>
+                        <span class="pos-receipt-right-align">
+                        <t t-esc="widget.format_currency_no_symbol(total_with_disocunt)"/>
+                    </span>
+                    </div>
+                    <div class="receipt-line">
+                    <span>Discount Extra</span>
+                        <span class="pos-receipt-right-align">
+                        <t t-esc="widget.format_currency_no_symbol(extra_discount)"/>
+                    </span>
+                    </div>
+
+            </t>
                 <div class="pos-receipt-amount">
                     <div class="receipt-line">
                         <span style="font-weight: 500">
@@ -465,21 +489,6 @@
                 </div>
             </div>
             <!-- Payment Lines -->
-            <div class="receipt-line">
-                <t t-set="extra_discount" t-value="0"/>
-                <t t-foreach='orderlines' t-as='line'>
-                    <t t-if="line.price and line.discount_extra">
-                        <t t-set="extra_discount"
-                           t-value="extra_discount + (line.price * (line.discount_extra/100) * line.quantity)"/>
-                    </t>
-                </t>
-                <t t-if="extra_discount">
-                <span>Discount Extra</span>
-                <span class="pos-receipt-right-align">
-                    <t t-esc="widget.format_currency_no_symbol(extra_discount)"/>
-                </span>
-                </t>
-            </div>
             <div class="receipt-line" style="text-align: right; float: right">
                 -------------
             </div>
