@@ -357,6 +357,9 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             if (this.picking_type) {
                 json.picking_type_id = this.picking_type.id;
             }
+            if (this.extra_discount_total) {
+                json.extra_discount_total = this.extra_discount_total
+            }
             return json;
         },
         export_for_printing: function () {
@@ -979,7 +982,10 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             if (discount.type == 'percent') {
                 for (var i = 0; i < lines.length; i++) {
                     var line = lines[i];
+                    console.log('========== *** 3rd =========',line)
                     line.discount_extra = discount.amount;
+                    line.extra_discount = discount.amount;
+                    line.extra_discount_value = (discount.amount/100) * line.price * line.quantity;
                     line.trigger('change', line)
                 }
             } else {
@@ -2245,6 +2251,13 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             if (json.is_shipping_cost) {
                 this.is_shipping_cost = json.is_shipping_cost
             }
+            if (json.extra_discount) {
+                this.extra_discount = json.extra_discount
+            }
+            if (json.extra_discount_value) {
+                this.extra_discount_value = json.extra_discount_value
+            }
+
             return res;
         },
         export_as_JSON: function () {
@@ -2341,6 +2354,13 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             }
             if (this.is_shipping_cost) {
                 json.is_shipping_cost = this.is_shipping_cost
+            }
+
+            if (this.extra_discount) {
+                json.extra_discount = this.extra_discount
+            }
+            if (this.extra_discount_value) {
+                json.extra_discount_value = this.extra_discount_value
             }
             return json;
         },

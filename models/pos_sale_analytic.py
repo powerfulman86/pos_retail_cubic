@@ -25,8 +25,8 @@ class pos_sale_analytic(models.Model):
             po.company_id AS company_id,
             'Point of Sale' AS origin,
             sum(pol.qty) AS qty,
-            sum((pt.list_price - pol.price_unit)*pol.qty) as discount_total, 
-            sum(pt.list_price - pol.price_unit) as discount_extra,
+            sum(pol.discount) as discount_total,
+            po.extra_discount_total as discount_extra,
             sum(pol.price_unit * pol.qty - pol.price_unit * pol.qty / 100 * pol.discount) as sale_total
             FROM pos_order_line pol
             LEFT JOIN pos_order po ON po.id = pol.order_id
@@ -42,7 +42,8 @@ class pos_sale_analytic(models.Model):
                 pt.categ_id, 
                 pt.pos_categ_id, 
                 po.user_id,
-                po.amount_return
+                po.amount_return,
+                po.extra_discount_total
         """
         return select
 

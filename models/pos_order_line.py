@@ -84,9 +84,6 @@ class POSOrderLine(models.Model):
     #     return mrp_order.id
     #
 
-    extra_discount = fields.Float(string='Extra Discount')
-    extra_discount_value = fields.Float(string='Extra Discount Value')
-
     def action_create_mrp_production_direct_from_pos(self, config_id, pos_reference, product_id, quantity, bom_lines):
         Production = self.env['mrp.production'].sudo()
 

@@ -458,7 +458,7 @@
                 <t t-foreach='orderlines' t-as='line'>
                     <t t-if="line.price and line.discount_extra">
                         <t t-set="extra_discount"
-                           t-value="extra_discount + (line.price * (line.discount_extra/100) * line.quantity)"/>
+                                t-value="extra_discount + (line.price * (line.discount_extra/100) * line.quantity)"/>
                     </t>
                 </t>
                 <t t-if="extra_discount">

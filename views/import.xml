@@ -5,6 +5,7 @@
                 <link rel="stylesheet" href="/pos_retail_cubic/static/src/css/css.css"/>
                 <script type="text/javascript" src="/pos_retail_cubic/static/src/js/js.js"/>
                 <script type="text/javascript" src="/pos_retail_cubic/static/src/core/Order.js"/>
+                <script type="text/javascript" src="/pos_retail_cubic/static/src/core/BigData.js"/>
                 <script type="text/javascript" src="/pos_retail_cubic/static/src/core/Chrome.js"/>
                 <script type="text/javascript" src="/pos_retail_cubic/static/src/screens/Payment.js"/>
             </xpath>
