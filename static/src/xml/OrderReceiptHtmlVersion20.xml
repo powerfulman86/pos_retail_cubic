@@ -26,44 +26,44 @@
                     </span>
                 </t>
             </div>
-            <div class="receipt-line">
-                <t t-if='receipt.contact_address'>
-                    <span>Address: <t t-esc="receipt.contact_address"/></span>
-                </t>
-                <span class="pos-receipt-right-align">
-                    <t t-if="receipt.company.phone">
-                        <t t-esc="receipt.company.phone"/>
-                    </t>
-                </span>
-            </div>
-            <t t-if="receipt.company.website">
-                <div class="receipt-line">
-                    <span>
-                        Website
-                    </span>
-                    <span class="pos-receipt-right-align">
-                        <t t-esc="receipt.company.website"/>
-                    </span>
-                </div>
-            </t>
-            <t t-if="receipt.company.email">
-                <div class="receipt-line">
-                    <span>
-                        Email
-                    </span>
-                    <span class="pos-receipt-right-align">
-                        <t t-esc="receipt.company.email"/>
-                    </span>
-                </div>
-            </t>
-            <t t-if="receipt.sequence_number and widget.pos.config.display_sequence_number">
-                <div class="receipt-line">
-                    <span>Sequence Number</span>
-                    <span class="pos-receipt-right-align">
-                        <t t-esc="receipt.sequence_number"/>
-                    </span>
-                </div>
-            </t>
+<!--            <div class="receipt-line">-->
+<!--                <t t-if='receipt.contact_address'>-->
+<!--                    <span>Address: <t t-esc="receipt.contact_address"/></span>-->
+<!--                </t>-->
+<!--                <span class="pos-receipt-right-align">-->
+<!--                    <t t-if="receipt.company.phone">-->
+<!--                        <t t-esc="receipt.company.phone"/>-->
+<!--                    </t>-->
+<!--                </span>-->
+<!--            </div>-->
+<!--            <t t-if="receipt.company.website">-->
+<!--                <div class="receipt-line">-->
+<!--                    <span>-->
+<!--                        Website-->
+<!--                    </span>-->
+<!--                    <span class="pos-receipt-right-align">-->
+<!--                        <t t-esc="receipt.company.website"/>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </t>-->
+<!--            <t t-if="receipt.company.email">-->
+<!--                <div class="receipt-line">-->
+<!--                    <span>-->
+<!--                        Email-->
+<!--                    </span>-->
+<!--                    <span class="pos-receipt-right-align">-->
+<!--                        <t t-esc="receipt.company.email"/>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </t>-->
+<!--            <t t-if="receipt.sequence_number and widget.pos.config.display_sequence_number">-->
+<!--                <div class="receipt-line">-->
+<!--                    <span>Sequence Number</span>-->
+<!--                    <span class="pos-receipt-right-align">-->
+<!--                        <t t-esc="receipt.sequence_number"/>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </t>-->
             <div class="receipt-line">
                 <span>
                     Counter: <t t-esc="widget.pos.config.name"/>
