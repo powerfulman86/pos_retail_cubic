@@ -8,6 +8,7 @@
 <!--                <script type="text/javascript" src="/pos_retail_cubic/static/src/core/BigData.js"/>-->
                 <script type="text/javascript" src="/pos_retail_cubic/static/src/core/Chrome.js"/>
                 <script type="text/javascript" src="/pos_retail_cubic/static/src/screens/Payment.js"/>
+
             </xpath>
         </template>
     </data>

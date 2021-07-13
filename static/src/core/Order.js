@@ -860,27 +860,6 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             var self = this;
             var client = this.get_client();
 
-//            console.log("validte payment maherrrrrrrrr", this.pos.config.mrp_produce_direct)
-//            if(this.pos.config.mrp_produce_direct){
-//                var orderlines = this.orderlines.models; // checking boms
-//                for (var i = 0; i < orderlines.length; i++) {
-//                    var boms = orderlines.is_has_bom();
-//                    if (boms.length = 1) {
-//                        orderlines.create_mrp_product_direct()
-//                    }
-//                }
-//            }
-//            if (this.pos.config.mrp_produce_direct && selected_orderline && selected_orderline.is_has_bom()) {
-//                var boms = selected_orderline.is_has_bom();
-//                if (boms.length = 1) {
-//                    self.pos.gui.show_popup('dialog', {
-//                        title: _t('Warning'),
-//                        body: _t('number of boms') + boms.length
-//                    }
-//                    this.create_mrp_product_direct();
-//                }
-//            }
-
             if (this.pos.config.multi_lots) {
                 var orderlines = this.orderlines.models; // checking multi lots
                 for (var i = 0; i < orderlines.length; i++) {
@@ -982,7 +961,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             if (discount.type == 'percent') {
                 for (var i = 0; i < lines.length; i++) {
                     var line = lines[i];
-                    console.log('========== *** 3rd =========',line)
+//                    console.log('========== *** 3rd =========',line)
                     line.discount_extra = discount.amount;
                     line.extra_discount = discount.amount;
                     line.extra_discount_value = (discount.amount/100) * line.price * line.quantity;
@@ -2505,7 +2484,6 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             }
         },
         set_discount_price: function (price_will_discount, tax) {
-//            console.log('========== *** 4th =========')
             if (tax.include_base_amount) {
                 var line_subtotal = this.get_price_with_tax() / this.quantity;
                 var tax_before_discount = (line_subtotal - line_subtotal / (1 + tax.amount / line_subtotal));
@@ -2776,7 +2754,6 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             }
         },
         set_discount_to_line: function (discount) {
-            console.log('========== *** 6th =========')
             if (discount != 0) {
                 this.discount_reason = discount.reason;
                 this.set_discount(discount.amount);
@@ -3004,6 +2981,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             var uom_items = this.pos.uoms_prices_by_product_tmpl_id[this.product.product_tmpl_id];
             if (!uom_items) {
                 return false;
+                return false;
             }
             if (uom_items.length > 0) {
                 return true;
@@ -3012,7 +2990,6 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             }
         },
         create_mrp_product_direct: function () {
-//            console.log("5566699333333")
             var self = this;
             var bom_lines_set = this.get_bom_lines();
             if (bom_lines_set) {
@@ -3055,6 +3032,36 @@ odoo.define('pos_retail_cubic.Order', function (require) {
                             return self.pos.query_backend_fail(err);
                         })
                     }
+                })
+            }
+        },
+        create_mrp_product_checkout: function () {
+            var self = this;
+            var bom_lines_set = this.get_bom_lines();
+            if (bom_lines_set.length != 0) {
+//                console.log('2222' , bom_lines_set)
+                return rpc.query({
+                    model: 'pos.order.line',
+                    method: 'action_create_mrp_production_direct_from_pos',
+                    args: [[],
+                        self.pos.config.id,
+                        self.order.name,
+                        self.product.id,
+                        self.quantity,
+                        bom_lines_set
+                    ],
+                    context: {}
+                }, {
+                    shadow: true,
+                    timeout: 6000
+                }).then(function (mrp_production_value) {
+                    self.pos._do_update_quantity_onhand([mrp_production_value.product_id]);
+                    self.mrp_production_id = mrp_production_value.id;
+                    self.mrp_production_state = mrp_production_value.state;
+                    self.mrp_production_name = mrp_production_value.name;
+                    self.trigger('change', self);
+                }, function (err) {
+                    return self.pos.query_backend_fail(err);
                 })
             }
         },
@@ -3189,11 +3196,13 @@ odoo.define('pos_retail_cubic.Order', function (require) {
         _validate_stock_on_hand: function (quantity) {
             var line_quantity = quantity;
             var product = this.product;
+
             var stock_datas = this.pos.db.stock_datas;
             if (product['type'] == 'product' && stock_datas && stock_datas[product.id] != undefined) {
                 if (!quantity) {
                     line_quantity = this.quantity;
                 }
+
                 var stock_available = stock_datas[product.id];
                 if (line_quantity > stock_available) {
                     return _t(product.name + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
@@ -3316,13 +3325,11 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             return merge
         },
         callback_set_discount: function (discount) {
-//            console.log('========== *** 7th =========')
             this.pos.config.validate_discount_change = false;
             this.set_discount(discount);
             this.pos.config.validate_discount_change = true;
         },
         set_discount: function (discount) {
-//            console.log('========== *** 8th =========')
             var the_first_load = this.pos.the_first_load;
             if (!the_first_load && this.pos.config.validate_discount_change) {
                 return this.pos._validate_by_manager("this.pos.get_order().get_selected_orderline().callback_set_discount(" + discount + ")", 'Validate set Discount: ' + discount + ' % ');

@@ -8,7 +8,7 @@ class POSOrderLine(models.Model):
     _inherit = "pos.order.line"
 
     extra_discount = fields.Float(string='Extra Discount', default='0')
-    extra_discount_value = fields.Float(string='Extra Discount', default='0')
+    extra_discount_value = fields.Float(string='Extra Discount Value', default='0')
     # def action_create_mrp_production(self, po_line, bom_lines):
     #     print(po_line,">>>>>>>>>>>>>>>>>>>>>>>>>>>",bom_lines)
     #     Production = self.env['mrp.production'].sudo()

@@ -30,6 +30,6 @@
         'static/src/xml/OrderReceiptHtmlVersion20.xml',
         'static/src/xml/KeyboardGuideWdiget.xml',
         'static/src/xml/screens/Payment.xml',
+        # 'static/src/xml/screens/ActionpadWidget.xml',
     ],
-
 }

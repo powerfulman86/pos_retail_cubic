@@ -861,20 +861,18 @@ odoo.define('pos_retail_cubic.Payment', function (require) {
                 return false
             }
             // TODO : check if order contains bom lines, create mrp for lines
-//            if (this.pos.config.mrp_produce_direct){
-//                var orderlines = order.orderlines.models;
-//                for (var i = 0; i < orderlines.length; i++) {
-//                    var line = orderlines[i];
-//                    console.log(">>>>>>>>>>>>>>>>>>>>>>>>", line.is_has_bom())
-//                    if (this.pos.config.mrp_produce_direct){
-//                        var boms = line.is_has_bom();
-//                        if (boms.length = 1) {
-//                            line.create_mrp_product_direct()
-//                        }
-//                    }
-//                }
-//            }
-             // TODO: we checking stock on hand available for sale
+            var orderlines = order.orderlines.models;
+            for (var i = 0; i < orderlines.length; i++) {
+                var line = orderlines[i];
+                var warning_message = line.create_mrp_product_checkout();
+                if (warning_message == true) {
+                    return this.pos.gui.show_popup('confirm', {
+                    title: _t('Warning, Your POS setting not allow sale product when products out of stock'),
+                        body: warning_message,
+                    });
+                }
+            }
+            // TODO: we checking stock on hand available for sale
             if (!this.pos.config.allow_order_out_of_stock) {
                 var orderlines = order.orderlines.models;
                 for (var i = 0; i < orderlines.length; i++) {
@@ -963,6 +961,17 @@ odoo.define('pos_retail_cubic.Payment', function (require) {
                 })
             } else {
                 return this._super(force_validation);
+            }
+            // TODO: Update stock on hand available for sale
+            if (!this.pos.config.allow_order_out_of_stock) {
+                var orderlines = order.orderlines.models;
+                var order_products = [];
+                for (var i = 0; i < orderlines.length; i++) {
+                    var line = orderlines[i];
+                    order_products.push(line.product.id);
+                }
+//                console.log('order products',order)
+                self.pos._do_update_quantity_onhand(order_products);
             }
         }
     });
