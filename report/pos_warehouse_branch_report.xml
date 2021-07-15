@@ -7,9 +7,7 @@
             <field name="model">pos.warehouse.branch.report</field>
             <field name="arch" type="xml">
                 <pivot string="Warehouse Analysis">
-<!--                    <field name="categ_id" type="row"/>-->
                     <field name="product_id" type="row"/>
-<!--                    <field name="location_id" type="col"/>-->
                     <field name="quantity" type="measure"/>
                 </pivot>
             </field>
@@ -20,7 +18,6 @@
             <field name="model">pos.warehouse.branch.report</field>
             <field name="arch" type="xml">
                 <graph string="POS Orders">
-<!--                    <field name="product_id" type="row"/>-->
                     <field name="location_id" type="row"/>
                     <field name="quantity" type="measure"/>
                 </graph>
