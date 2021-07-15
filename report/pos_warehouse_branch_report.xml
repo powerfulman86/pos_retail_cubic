@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="pos_retail_cubic.pos_warehouse_branch_report_pivot" model="ir.ui.view">
+            <field name="name">pos.warehouse.branch.report.pivot</field>
+            <field name="model">pos.warehouse.branch.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Warehouse Analysis">
+<!--                    <field name="categ_id" type="row"/>-->
+                    <field name="product_id" type="row"/>
+<!--                    <field name="location_id" type="col"/>-->
+                    <field name="quantity" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="pos_retail_cubic.pos_warehouse_branch_report_graph" model="ir.ui.view">
+            <field name="name">pos.warehouse.branch.report.graph</field>
+            <field name="model">pos.warehouse.branch.report</field>
+            <field name="arch" type="xml">
+                <graph string="POS Orders">
+<!--                    <field name="product_id" type="row"/>-->
+                    <field name="location_id" type="row"/>
+                    <field name="quantity" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="menu_pos_warehouse_branch_report_action" model="ir.actions.act_window">
+            <field name="name">Warehouse Analysis</field>
+            <field name="res_model">pos.warehouse.branch.report</field>
+            <field name="view_mode">graph,pivot</field>
+        </record>
+
+        <menuitem id="menu_pos_warehouse_branch_report"
+                  action="menu_pos_warehouse_branch_report_action"
+                  parent="point_of_sale.menu_point_rep"
+                  sequence="21"/>
+
+    </data>
+</odoo>

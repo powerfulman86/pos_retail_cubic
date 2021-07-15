@@ -16,6 +16,7 @@
                 </pivot>
             </field>
         </record>
+
         <record id="pos_retail.pos_sale_analytic_graph" model="ir.ui.view">
             <field name="name">pos.sale.analytic.graph</field>
             <field name="model">pos.sale.analytic</field>
