@@ -872,18 +872,18 @@ odoo.define('pos_retail_cubic.Payment', function (require) {
             if (!this._is_pos_order_paid(order)) {
                 return false
             }
-            // TODO : check if order contains bom lines, create mrp for lines
-            var orderlines = order.orderlines.models;
-            for (var i = 0; i < orderlines.length; i++) {
-                var line = orderlines[i];
-                var warning_message = line.create_mrp_product_checkout();
-                if (warning_message == true) {
-                    return this.pos.gui.show_popup('confirm', {
-                    title: _t('Warning, Your POS setting not allow sale product when products out of stock'),
-                        body: warning_message,
-                    });
-                }
-            }
+//            // TODO : check if order contains bom lines, create mrp for lines
+//            var orderlines = order.orderlines.models;
+//            for (var i = 0; i < orderlines.length; i++) {
+//                var line = orderlines[i];
+//                var warning_message = line.create_mrp_product_checkout();
+//                if (warning_message == true) {
+//                    return this.pos.gui.show_popup('confirm', {
+//                    title: _t('Warning, Your POS setting not allow sale product when products out of stock'),
+//                        body: warning_message,
+//                    });
+//                }
+//            }
             // TODO: we checking stock on hand available for sale
             if (!this.pos.config.allow_order_out_of_stock) {
                 var orderlines = order.orderlines.models;
