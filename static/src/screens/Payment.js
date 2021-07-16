@@ -210,22 +210,6 @@ odoo.define('pos_retail_cubic.Payment', function (require) {
             this.render_paymentlines();
             this.order_changes();
         },
-        update_ordered_products_qty: function(order){
-            // TODO: Update stock on hand available for sale
-            if (!this.pos.config.allow_order_out_of_stock) {
-                var orderlines = order.orderlines.models;
-                var order_products = [];
-                for (var i = 0; i < orderlines.length; i++) {
-                    var line = orderlines[i];
-                    order_products.push(line.product.id);
-                }
-                console.log('order',order)
-                console.log('order_products',order_products)
-                if(order_products.length){
-                    this.pos._do_update_quantity_onhand(order_products);
-                }
-            }
-        },
         finalize_validation: function () {
             // TODO: if pos config missed setting Invoicing / Invoice Journal (invoice_journal_id)
             // We allow order continue and submit to backend without invoice
@@ -252,9 +236,6 @@ odoo.define('pos_retail_cubic.Payment', function (require) {
                 }
             } else {
                 this._super();
-            }
-            if (!this.pos.config.allow_order_out_of_stock) {
-                this.update_ordered_products_qty(order);
             }
         },
         auto_rounding_due_amount: function () {
@@ -993,6 +974,7 @@ odoo.define('pos_retail_cubic.Payment', function (require) {
             } else {
                 return this._super(force_validation);
             }
+            console.log('Validate order')
         }
     });
 });

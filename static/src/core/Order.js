@@ -1546,6 +1546,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             })
         },
         print_receipt: function () {
+            console.log('print_receipt')
             var self = this;
             if (self && self.orderlines.models.length != 0) {
                 self.pos.config.receipt_fullsize = false;
@@ -2116,7 +2117,23 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             return this.pos.gui.show_popup('popup_create_sale_order', {
                 title: _t('Create Quotation/Sale Order'),
             });
-        }
+        },
+        update_ordered_products_qty: function(){
+            var order = this;
+//            console.log('order',order)
+            // TODO: Update stock on hand available for sale
+            if (!this.pos.config.allow_order_out_of_stock) {
+                var orderlines = order.orderlines.models;
+                var order_products = [];
+                for (var i = 0; i < orderlines.length; i++) {
+                    var line = orderlines[i];
+                    order_products.push(line.product.id);
+                }
+                if(order_products.length){
+                    this.pos._do_update_quantity_onhand(order_products);
+                }
+            }
+        },
     });
 
     var _super_Orderline = models.Orderline.prototype;
