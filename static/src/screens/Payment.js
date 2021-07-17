@@ -864,31 +864,72 @@ odoo.define('pos_retail_cubic.Payment', function (require) {
             }
             return true
         },
+        sleep:function (delay) {
+            var start = new Date().getTime();
+            while (new Date().getTime() < start + delay);
+        },
         validate_order: function (force_validation) {
             // TODO: if return in this method, it mean no call super method Odoo POS Original (*), if not call (*): it mean order not valid
             var self = this;
             self.force_validation = force_validation;
+            var time_to_delay = 0;
             var order = this.pos.get_order();
             if (!this._is_pos_order_paid(order)) {
                 return false
             }
-//            // TODO : check if order contains bom lines, create mrp for lines
-//            var orderlines = order.orderlines.models;
-//            for (var i = 0; i < orderlines.length; i++) {
-//                var line = orderlines[i];
-//                var warning_message = line.create_mrp_product_checkout();
-//                if (warning_message == true) {
-//                    return this.pos.gui.show_popup('confirm', {
-//                    title: _t('Warning, Your POS setting not allow sale product when products out of stock'),
-//                        body: warning_message,
-//                    });
-//                }
-//            }
+            // TODO : check if order contains bom lines, create mrp for lines
+            if (this.pos.config.mrp_produce_direct && this._is_order_contains_bom(order)) {
+                var orderlines = order.orderlines.models;
+                //1st we check available quantity for all products
+                if (!this.pos.config.allow_order_out_of_stock) {
+                    for (var i = 0; i < orderlines.length; i++) {
+                        var line = orderlines[i];
+                        var warning_message = line._check_stock_on_hand();
+                        if (warning_message == true) {
+                            continue
+                        } else {
+                            return this.pos.gui.show_popup('confirm', {
+                                title: _t('Warning, Your POS setting not allow sale product when products out of stock'),
+                                body: warning_message,
+                            });
+                        }
+                    }
+                }
+                //2nd create mrp for products
+                for (var i = 0; i < orderlines.length; i++) {
+                    var line = orderlines[i];
+                    var bom_lines_set = line.get_bom_lines();
+                    if(bom_lines_set){
+                        if(bom_lines_set.length == 0){
+                            //return if not mrp product
+                            continue
+                        }
+                        if(line.mrp_production_state!="done" && !line.mrp_production_id){
+                            line.create_mrp_product_checkout()
+                            time_to_delay+=1;
+                        }else{
+                            continue
+                        }
+                    }
+                }
+            }
+            this.sleep(time_to_delay*1000);
             // TODO: we checking stock on hand available for sale
             if (!this.pos.config.allow_order_out_of_stock) {
                 var orderlines = order.orderlines.models;
+
                 for (var i = 0; i < orderlines.length; i++) {
                     var line = orderlines[i];
+                    var bom_lines_set = line.get_bom_lines();
+                    if(bom_lines_set){
+                        if(bom_lines_set.length != 0 && line.mrp_production_state!="done" && !line.mrp_production_id){
+                            return this.pos.gui.show_popup('wait', {
+                                title: _t('Warning'),
+                                body: _t('Please Wait For MRP Orders')
+                            });
+                        }
+                    }
+
                     var warning_message = line._validate_stock_on_hand();
                     if (warning_message == true) {
                         continue
@@ -974,7 +1015,6 @@ odoo.define('pos_retail_cubic.Payment', function (require) {
             } else {
                 return this._super(force_validation);
             }
-            console.log('Validate order')
         }
     });
 });

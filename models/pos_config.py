@@ -21,9 +21,11 @@ class PosSaleReport(models.TransientModel):
 
 class PosConfig(models.Model):
     _inherit = 'pos.config'
+
     modify_bom = fields.Boolean(string='Modify BOM')
     cash_balance = fields.Boolean(string='Cash Register Balance')
     show_mrp_order = fields.Boolean(string='Show MRP Order')
+    hide_mrp_produce_direct = fields.Boolean(string='Hid Mrp Button')
 
     @api.onchange('mrp')
     def onchange_mrp2(self):

@@ -289,7 +289,7 @@ odoo.define('pos_retail_cubic.js', function (require) {
             if (line && line.is_has_bom() && this.pos.config.modify_bom) {
                 this.$('.modifier_bom').removeClass('oe_hidden');
                 this.$('.modifier_bom').addClass('highlight');
-                if (this.pos.config.mrp_produce_direct) {
+                if (this.pos.config.mrp_produce_direct && !this.pos.config.hide_mrp_produce_direct) {
                     this.$('.create_mrp_product_direct').removeClass('oe_hidden');
                     this.$('.create_mrp_product_direct').addClass('highlight');
                 } else {
@@ -298,7 +298,7 @@ odoo.define('pos_retail_cubic.js', function (require) {
             } else {
                 this.$('.modifier_bom').addClass('oe_hidden');
             }
-            if (line && line.is_has_bom() && this.pos.config.mrp_produce_direct) {
+            if (line && line.is_has_bom() && this.pos.config.mrp_produce_direct && !this.pos.config.hide_mrp_produce_direct) {
                 this.$('.create_mrp_product_direct').removeClass('oe_hidden');
                 this.$('.create_mrp_product_direct').addClass('highlight');
             } else {

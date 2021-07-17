@@ -2120,7 +2120,6 @@ odoo.define('pos_retail_cubic.Order', function (require) {
         },
         update_ordered_products_qty: function(){
             var order = this;
-//            console.log('order',order)
             // TODO: Update stock on hand available for sale
             if (!this.pos.config.allow_order_out_of_stock) {
                 var orderlines = order.orderlines.models;
@@ -3223,6 +3222,37 @@ odoo.define('pos_retail_cubic.Order', function (require) {
                 var stock_available = stock_datas[product.id];
                 if (line_quantity > stock_available) {
                     return _t(product.name + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
+                }
+            }
+            return true
+        },
+        _check_stock_on_hand: function (quantity) {
+            var self = this;
+            var bom_lines_set = self.get_bom_lines();
+            var line_quantity = quantity;
+            var product = self.product;
+
+            var stock_datas = self.pos.db.stock_datas;
+            if (!quantity) {
+                line_quantity = self.quantity;
+            }
+            if (product['type'] == 'product' && stock_datas && stock_datas[product.id] != undefined && bom_lines_set.length == 0) {
+                var stock_available = stock_datas[product.id];
+                if (line_quantity > stock_available) {
+                    return _t(product.name + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
+                }
+            }else{
+                for (var i = 0; i < bom_lines_set.length; i++) {
+                    var bom_product_id = bom_lines_set[i].bom_line.product_id[0];
+                    var bom_product_name = bom_lines_set[i].bom_line.product_id[1];
+                    var bom_line_quantity = line_quantity * bom_lines_set[i].quantity;
+                    var stock_available = stock_datas[bom_product_id];
+
+                    if (stock_datas && stock_datas[bom_product_id] != undefined) {
+                        if (bom_line_quantity > stock_available) {
+                            return _t(bom_product_name + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
+                        }
+                    }
                 }
             }
             return true
