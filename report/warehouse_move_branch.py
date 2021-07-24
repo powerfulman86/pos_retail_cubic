@@ -33,7 +33,7 @@ class PosBranchStockMoveReport(models.Model):
     is_backorder = fields.Boolean("Is a Backorder", readonly=True)
     quantity = fields.Float("Product Quantity", readonly=True)
     categ_id = fields.Many2one('product.category', 'Product Category', readonly=True)
-    branch_id = fields.Many2one('pos.branch', 'Branch')
+    pos_branch_id = fields.Many2one('pos.branch', 'Branch')
 
     def _select(self):
         select_str = """
@@ -51,7 +51,7 @@ class PosBranchStockMoveReport(models.Model):
             sm.state as state,
             sm.product_qty as quantity,
             cat.id as categ_id,
-            spt.pos_branch_id as branch_id
+            spt.pos_branch_id as pos_branch_id
         """
 
         return select_str

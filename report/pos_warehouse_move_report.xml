@@ -8,6 +8,7 @@
                 <search>
                     <field name="reference"/>
                     <field name="operation_type"/>
+                    <field name="pos_branch_id"/>
                     <filter string="Done Transfers" name="done" domain="[('state', '=', 'done')]"/>
                     <filter string="Done Deliveries" name="done_deliveries" domain="[('state', '=', 'done'), ('picking_type_code', '=', 'outgoing')]"/>
                     <filter string="Done Receipts" name="done_receipts" domain="[('state', '=', 'done'), ('picking_type_code', '=', 'incoming')]"/>
@@ -21,7 +22,7 @@
             <field name="arch" type="xml">
                 <pivot string="Stock Overview">
                     <field name="operation_type" type="col"/>
-                    <field name="branch_id" type="row"/>
+                    <field name="pos_branch_id" type="row"/>
                     <field name="categ_id" type="row"/>
                     <field name="quantity" type="measure"/>
                 </pivot>
