@@ -8,7 +8,6 @@
                 <search>
                     <field name="reference"/>
                     <field name="operation_type"/>
-                    <field name="branch_id"/>
                     <filter string="Done Transfers" name="done" domain="[('state', '=', 'done')]"/>
                     <filter string="Done Deliveries" name="done_deliveries" domain="[('state', '=', 'done'), ('picking_type_code', '=', 'outgoing')]"/>
                     <filter string="Done Receipts" name="done_receipts" domain="[('state', '=', 'done'), ('picking_type_code', '=', 'incoming')]"/>
