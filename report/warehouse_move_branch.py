@@ -31,16 +31,9 @@ class PosBranchStockMoveReport(models.Model):
         ('done', 'Done')], string='Status', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
     is_backorder = fields.Boolean("Is a Backorder", readonly=True)
-    product_qty = fields.Float("Product Quantity", readonly=True)
+    quantity = fields.Float("Product Quantity", readonly=True)
     categ_id = fields.Many2one('product.category', 'Product Category', readonly=True)
-
-    @api.depends('reference', 'product_id.name')
-    def name_get(self):
-        res = []
-        for report in self:
-            name = '%s - %s' % (report.reference, report.product_id.display_name)
-            res.append((report.id, name))
-        return res
+    branch_id = fields.Many2one('pos.branch', 'Branch')
 
     def _select(self):
         select_str = """
@@ -56,8 +49,9 @@ class PosBranchStockMoveReport(models.Model):
             sm.reference as reference,
             sm.inventory_id as inventory_id,
             sm.state as state,
-            sm.product_qty as product_qty,
-            cat.id as categ_id
+            sm.product_qty as quantity,
+            cat.id as categ_id,
+            spt.pos_branch_id as branch_id
         """
 
         return select_str
@@ -109,7 +103,8 @@ class PosBranchStockMoveReport(models.Model):
             spt.code,
             spt.name,
             p.id,
-            cat.id
+            cat.id,
+            spt.pos_branch_id
         """
 
         return group_by_str

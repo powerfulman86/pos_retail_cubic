@@ -2,7 +2,18 @@
 <odoo>
     <data>
 
-        <record id="pos_retail_cubic.pos_warehouse_branch_report_pivot" model="ir.ui.view">
+        <record id="pos_warehouse_branch_report_search_view" model="ir.ui.view">
+            <field name="name">pos.warehouse.branch.report.view.search</field>
+            <field name="model">pos.warehouse.branch.report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_id"/>
+                    <field name="location_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="pos_warehouse_branch_report_pivot" model="ir.ui.view">
             <field name="name">pos.warehouse.branch.report.pivot</field>
             <field name="model">pos.warehouse.branch.report</field>
             <field name="arch" type="xml">
@@ -13,7 +24,7 @@
             </field>
         </record>
 
-        <record id="pos_retail_cubic.pos_warehouse_branch_report_graph" model="ir.ui.view">
+        <record id="pos_warehouse_branch_report_graph" model="ir.ui.view">
             <field name="name">pos.warehouse.branch.report.graph</field>
             <field name="model">pos.warehouse.branch.report</field>
             <field name="arch" type="xml">
@@ -24,10 +35,23 @@
             </field>
         </record>
 
+        <record id="pos_warehouse_branch_report_dashboard_view" model="ir.ui.view">
+            <field name="name">pos.warehouse.branch.report.dashboard.view</field>
+            <field name="model">pos.warehouse.branch.report</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <dashboard>
+                    <view type="graph" ref="pos_warehouse_branch_report_graph"/>
+                    <view type="pivot" ref="pos_warehouse_branch_report_pivot"/>
+                </dashboard>
+            </field>
+        </record>
+
         <record id="menu_pos_warehouse_branch_report_action" model="ir.actions.act_window">
             <field name="name">Warehouse Analysis</field>
             <field name="res_model">pos.warehouse.branch.report</field>
-            <field name="view_mode">graph,pivot</field>
+            <field name="view_mode">dashboard</field>
+            <field name="view_id" ref="pos_warehouse_branch_report_dashboard_view"/>
         </record>
 
         <menuitem id="menu_pos_warehouse_branch_report"

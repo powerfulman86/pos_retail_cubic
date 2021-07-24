@@ -1,8 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="warehouse_branch_move_report_search_view" model="ir.ui.view">
+            <field name="name">pos.branch.stock.move.report.view.search</field>
+            <field name="model">pos.branch.stock.move.report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="reference"/>
+                    <field name="operation_type"/>
+                    <field name="branch_id"/>
+                    <filter string="Done Transfers" name="done" domain="[('state', '=', 'done')]"/>
+                    <filter string="Done Deliveries" name="done_deliveries" domain="[('state', '=', 'done'), ('picking_type_code', '=', 'outgoing')]"/>
+                    <filter string="Done Receipts" name="done_receipts" domain="[('state', '=', 'done'), ('picking_type_code', '=', 'incoming')]"/>
+                </search>
+            </field>
+        </record>
 
+         <record id="warehouse_branch_move_report_pivot_view" model="ir.ui.view">
+            <field name="name">pos.branch.stock.move.report.pivot</field>
+            <field name="model">pos.branch.stock.move.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Stock Overview">
+                    <field name="operation_type" type="col"/>
+                    <field name="branch_id" type="row"/>
+                    <field name="categ_id" type="row"/>
+                    <field name="quantity" type="measure"/>
+                </pivot>
+            </field>
+        </record>
 
+        <record id="warehouse_branch_move_report_graph" model="ir.ui.view">
+            <field name="name">pos.branch.stock.move.report.graph</field>
+            <field name="model">pos.branch.stock.move.report</field>
+            <field name="arch" type="xml">
+                <graph string="Warehouse Move Analysis">
+                    <field name="operation_type" type="row"/>
+                    <field name="quantity" type="measure"/>
+                </graph>
+            </field>
+        </record>
 
+        <record id="warehouse_branch_move_report_dashboard_view" model="ir.ui.view">
+            <field name="name">pos.branch.stock.move.report.dashboard.view</field>
+            <field name="model">pos.branch.stock.move.report</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <dashboard>
+                    <view type="graph" ref="pos_retail_cubic.warehouse_branch_move_report_graph"/>
+                    <view type="pivot" ref="pos_retail_cubic.warehouse_branch_move_report_pivot_view"/>
+                </dashboard>
+            </field>
+        </record>
+
+        <record id="menu_warehouse_branch_move_report_action" model="ir.actions.act_window">
+            <field name="name">Warehouse Move Analysis</field>
+            <field name="res_model">pos.branch.stock.move.report</field>
+            <field name="view_mode">dashboard</field>
+            <field name="view_id" ref="warehouse_branch_move_report_dashboard_view"/>
+            <field name="domain" eval="[('picking_type_code', '!=', False)]"/>
+            <field name="context">{'search_default_done': 1, 'time_ranges': {'field':'date_done', 'range':'last_30_days'}}</field>
+        </record>
+
+        <menuitem id="menu_warehouse_branch_move_report"
+                  action="menu_warehouse_branch_move_report_action"
+                  parent="point_of_sale.menu_point_rep"
+                  sequence="25"/>
     </data>
 </odoo>
