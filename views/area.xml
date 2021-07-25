@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+
+        <record id="cubic_pos_branch_form" model="ir.ui.view">
+            <field name="name">pos.branch</field>
+            <field name="model">pos.branch</field>
+            <field name="inherit_id" ref="pos_retail.pos_branch_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_ids']" position="after">
+                    <field name="area_id" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="pos_area_tree" model="ir.ui.view">
+            <field name="name">res.area.tree</field>
+            <field name="model">res.area</field>
+            <field name="arch" type="xml">
+                <tree string="Area">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="pos_area_form" model="ir.ui.view">
+            <field name="name">res.area.form</field>
+            <field name="model">res.area</field>
+            <field name="arch" type="xml">
+                <form string="Area">
+                    <header>
+                        <!--                        <button name="assign_branch_to_users"-->
+                        <!--                                string="Assign Area to Users"-->
+                        <!--                                type="object"-->
+                        <!--                                confirm="Are you want assign this branch to all Users added in here ?"-->
+                        <!--                                groups="pos_retail.group_branch_manager" class="btn-primary"/>-->
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="branch_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_pos_area">
+            <field name="name">Area</field>
+            <field name="res_model">res.area</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_action_pos_area"
+                  parent="base.menu_users"
+                  sequence="100"
+                  action="action_pos_area"/>
+
+    </data>
+</odoo>

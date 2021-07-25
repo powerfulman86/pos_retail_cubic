@@ -23,7 +23,7 @@
                 </xpath>
                 <xpath expr="//button[@name='%(point_of_sale.action_pos_box_out)d']" position="attributes">
                     <attribute name="attrs">{'invisible': [('state', 'in', ('new_session', 'opening_control',
-                        'opened','closing_control'))]}
+                                                                            'opened', 'closing_control'))]}
                     </attribute>
                 </xpath>
                 <xpath expr="//field[@name='cash_register_difference']/../.." position="after">
@@ -57,6 +57,27 @@
                 </xpath>
                 <xpath expr="//header" position="inside">
                     <button name="print_z_report" type="object" string="z report"/>
+                </xpath>
+
+                <xpath expr="//field[@name='cash_register_balance_start']/../../.." position="after">
+                    <group class="col-md-7">
+                        <div style="margin:0;padding:0;">
+                            <group style="margin:0;padding:0;">
+                                <field style="text-align:right;margin:0;padding:0;" name="visa_transaction"
+                                       attrs="{'invisible': [('ended', '=', False)]}"
+                                       widget="monetary" options="{'currency_field': 'currency_id'}"
+                                       string="Visa Transactions"/>
+                                <field style="text-align:right;margin:0;padding:0;" name="visa_expected"
+                                       attrs="{'invisible': [('ended', '=', False)]}"
+                                       widget="monetary" options="{'currency_field': 'currency_id'}"
+                                       string="Visa Expected"/>
+                                <field style="text-align:right;margin:0;padding:0;" name="visa_actual"
+                                       attrs="{'readonly': [('ended', '=', False)]}"
+                                       widget="monetary" options="{'currency_field': 'currency_id'}"
+                                       string="Visa Actual"/>
+                            </group>
+                        </div>
+                    </group>
                 </xpath>
             </field>
         </record>

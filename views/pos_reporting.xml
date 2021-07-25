@@ -2,6 +2,31 @@
 <odoo>
     <data>
 
+        <record id="cubic_view_pos_payment_tree" model="ir.ui.view">
+            <field name="name">pos.payment</field>
+            <field name="model">pos.payment</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_payment_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='pos_order_id']" position="after">
+                    <field name="partner_id" />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="cubic_pos_sale_analytic_search" model="ir.ui.view">
+            <field name="name">pos.sale.analytic</field>
+            <field name="model">pos.sale.analytic</field>
+            <field name="inherit_id" ref="pos_retail.pos_sale_analytic_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="partner_id"/>
+                    <filter name="partner_id" string="Customer" context="{'group_by': 'partner_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
         <menuitem id="point_of_sale.menu_point_rep"
                   name="Report"
                   parent="point_of_sale.menu_point_root"

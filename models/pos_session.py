@@ -22,6 +22,21 @@ class PosPaymentMethod(models.Model):
 class PosSession(models.Model):
     _inherit = "pos.session"
     ended = fields.Boolean('ended', compute="compute_end")
+    visa_transaction = fields.Float('Transaction')
+    visa_expected = fields.Float('Expected in Visa', compute='compute_visa_expected')
+    visa_actual = fields.Float('Actual in Visa')
+
+    @api.depends('name')
+    def compute_visa_expected(self):
+        for rec in self:
+            order_ids = self.env['pos.order'].search([('session_id', '=', rec.id)])
+            total = 0
+            for order in order_ids:
+                for line in order.payment_ids:
+                    if line.payment_method_id.visa is True:
+                        total += line.amount
+            rec.visa_expected = total
+
 
     @api.depends('cash_register_balance_end_real')
     def compute_end(self):
