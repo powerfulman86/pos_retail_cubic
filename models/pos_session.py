@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api, _
-from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError, ValidationError
 
 
-# _logger = logging.getLogger(__name__)
 class PosPaymentMethod(models.Model):
     _inherit = 'pos.payment.method'
 
@@ -36,7 +34,6 @@ class PosSession(models.Model):
                     if line.payment_method_id.visa is True:
                         total += line.amount
             rec.visa_expected = total
-
 
     @api.depends('cash_register_balance_end_real')
     def compute_end(self):

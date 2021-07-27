@@ -27,7 +27,6 @@ class PosConfig(models.Model):
     show_mrp_order = fields.Boolean(string='Show MRP Order')
     hide_mrp_produce_direct = fields.Boolean(string='Hid Mrp Button')
 
-
     @api.onchange('mrp')
     def onchange_mrp2(self):
         if not self.mrp:

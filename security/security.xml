@@ -61,13 +61,28 @@
         <record id="pos_wh_move_branch_manager" model="ir.rule">
             <field name="name">WH Branch Move Manager Show only Branch</field>
             <field ref="model_pos_branch_stock_move_report" name="model_id"/>
-            <field name="domain_force">[('branch_id', '=', user.pos_branch_id.id)]</field>
+            <field name="domain_force">[('pos_branch_id', '=', user.pos_branch_id.id)]</field>
             <field name="groups" eval="[(4, ref('pos_retail.group_branch_manager'))]"/>
         </record>
 
         <record id="pos_wh_move_branch_show_all" model="ir.rule">
             <field name="name">WH Branch Move Show All</field>
             <field ref="model_pos_branch_stock_move_report" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('point_of_sale.group_pos_manager'))]"/>
+        </record>
+
+        <!--sale summry analysis report-->
+        <record id="pos_sale_summary_branch_manager" model="ir.rule">
+            <field name="name">sale summary analysis report Manager Show only Branch</field>
+            <field ref="model_pos_sale_analytic" name="model_id"/>
+            <field name="domain_force">[('pos_branch_id', '=', user.pos_branch_id.id)]</field>
+            <field name="groups" eval="[(4, ref('pos_retail.group_branch_manager'))]"/>
+        </record>
+
+        <record id="pos_sale_summary_branch_show_all" model="ir.rule">
+            <field name="name">sale summary analysis report Show All</field>
+            <field ref="model_pos_sale_analytic" name="model_id"/>
             <field name="domain_force">[(1, '=', 1)]</field>
             <field name="groups" eval="[(4, ref('point_of_sale.group_pos_manager'))]"/>
         </record>
