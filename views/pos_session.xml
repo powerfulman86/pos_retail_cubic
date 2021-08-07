@@ -23,7 +23,7 @@
                 </xpath>
                 <xpath expr="//button[@name='%(point_of_sale.action_pos_box_out)d']" position="attributes">
                     <attribute name="attrs">{'invisible': [('state', 'in', ('new_session', 'opening_control',
-                                                                            'opened', 'closing_control'))]}
+                        'opened', 'closing_control'))]}
                     </attribute>
                 </xpath>
                 <xpath expr="//field[@name='cash_register_difference']/../.." position="after">
@@ -63,18 +63,20 @@
                     <group class="col-md-7">
                         <div style="margin:0;padding:0;">
                             <group style="margin:0;padding:0;">
+                                <field name="show_visa" invisible="1" />
+                                <field name="show_visa_actual" invisible="1" />
                                 <field style="text-align:right;margin:0;padding:0;" name="visa_transaction"
-                                       attrs="{'invisible': [('ended', '=', False)]}"
+                                       attrs="{'invisible': [('show_visa', '=', False)]}"
                                        widget="monetary" options="{'currency_field': 'currency_id'}"
                                        string="Visa Transactions"/>
-                                <field style="text-align:right;margin:0;padding:0;" name="visa_expected"
-                                       attrs="{'invisible': [('ended', '=', False)]}"
-                                       widget="monetary" options="{'currency_field': 'currency_id'}"
-                                       string="Visa Expected"/>
                                 <field style="text-align:right;margin:0;padding:0;" name="visa_actual"
-                                       attrs="{'readonly': [('ended', '=', False)]}"
+                                       attrs="{'invisible': [('show_visa_actual', '=', False)]}"
                                        widget="monetary" options="{'currency_field': 'currency_id'}"
                                        string="Visa Actual"/>
+                                <field style="text-align:right;margin:0;padding:0;" name="visa_expected"
+                                       attrs="{'invisible': [('show_visa', '=', False)]}"
+                                       widget="monetary" options="{'currency_field': 'currency_id'}"
+                                       string="Visa Expected"/>
                             </group>
                         </div>
                     </group>

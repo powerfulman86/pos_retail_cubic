@@ -20,11 +20,13 @@ class PosPaymentMethod(models.Model):
 class PosSession(models.Model):
     _inherit = "pos.session"
     ended = fields.Boolean('ended', compute="compute_end")
+    show_visa = fields.Boolean('ended', compute="compute_show_visa")
+    show_visa_actual = fields.Boolean('ended', compute="compute_show_visa_actual")
     visa_transaction = fields.Float('Transaction')
     visa_expected = fields.Float('Expected in Visa', compute='compute_visa_expected')
     visa_actual = fields.Float('Actual in Visa')
 
-    @api.depends('name')
+    @api.depends('name', 'visa_transaction')
     def compute_visa_expected(self):
         for rec in self:
             order_ids = self.env['pos.order'].search([('session_id', '=', rec.id)])
@@ -34,6 +36,20 @@ class PosSession(models.Model):
                     if line.payment_method_id.visa is True:
                         total += line.amount
             rec.visa_expected = total
+
+    @api.depends('state')
+    def compute_show_visa(self):
+        for rec in self:
+            rec.show_visa = False
+            if rec.state not in ['closing_control', 'closed'] or self.env.user.has_group('point_of_sale.group_pos_manager'):
+                rec.show_visa = True
+
+    @api.depends('state')
+    def compute_show_visa_actual(self):
+        for rec in self:
+            rec.show_visa_actual = False
+            if rec.state =='closed'  or self.env.user.has_group('point_of_sale.group_pos_manager'):
+                rec.show_visa_actual = True
 
     @api.depends('cash_register_balance_end_real')
     def compute_end(self):
