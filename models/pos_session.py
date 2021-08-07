@@ -25,6 +25,27 @@ class PosSession(models.Model):
     visa_transaction = fields.Float('Transaction')
     visa_expected = fields.Float('Expected in Visa', compute='compute_visa_expected')
     visa_actual = fields.Float('Actual in Visa')
+    visa_differ =  fields.Float('Expected in Visa', compute='compute_visa_differ')
+
+    def open_visa_wizard(self):
+        return {
+            'name': _('VISA'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_id': self.id,
+            'view_id': self.env.ref('pos_retail_cubic.visa_view_form').id,
+            'res_model': 'pos.session',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            "context": {
+                'search_default_config_id': [self.config_id],
+                'default_config_id': [self.config_id]}
+        }
+
+    @api.depends('visa_expected', 'visa_actual')
+    def compute_visa_differ(self):
+        for rec in self:
+            rec.visa_differ = rec.visa_expected - rec.visa_actual
 
     @api.depends('name', 'visa_transaction')
     def compute_visa_expected(self):

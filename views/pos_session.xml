@@ -2,6 +2,36 @@
 <odoo>
     <data>
 
+        <record id="visa_view_form" model="ir.ui.view">
+            <field name="name">pos.session</field>
+            <field name="model">pos.session</field>
+            <field name="priority" eval="999"/>
+            <field name="arch" type="xml">
+                <form string="visa_form">
+                    <sheet>
+                        <group>
+                            <field name="visa_actual"/>
+                            <field name="config_id" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--        <record id="point_of_sale.action_pos_session_filtered" model="ir.actions.act_window">-->
+        <!--            <field name="name">Sessions</field>-->
+        <!--            <field name="type">ir.actions.act_window</field>-->
+        <!--            <field name="res_model">pos.session</field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--            <field name="search_view_id" ref="point_of_sale.view_pos_session_search"/>-->
+        <!--            <field name="view_id" ref="point_of_sale.view_pos_session_form"/>-->
+        <!--            <field name="context">{-->
+        <!--                'search_default_config_id': [active_id],-->
+        <!--                'default_config_id': active_id}-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+
         <!--        <record id="cubic_pos_payment_method_view_form" model="ir.ui.view">-->
         <!--            <field name="name">pos.payment.method</field>-->
         <!--            <field name="model">pos.payment.method</field>-->
@@ -63,21 +93,35 @@
                     <group class="col-md-7">
                         <div style="margin:0;padding:0;">
                             <group style="margin:0;padding:0;">
-                                <field name="show_visa" invisible="1" />
-                                <field name="show_visa_actual" invisible="1" />
-                                <field style="text-align:right;margin:0;padding:0;" name="visa_transaction"
-                                       attrs="{'invisible': [('show_visa', '=', False)]}"
-                                       widget="monetary" options="{'currency_field': 'currency_id'}"
-                                       string="Visa Transactions"/>
+                                <field name="show_visa" invisible="1"/>
+                                <field name="show_visa_actual" invisible="1"/>
+                                <field name="show_visa_actual" invisible="1"/>
+<!--                                <field style="text-align:right;margin:0;padding:0;" name="visa_transaction"-->
+<!--                                       attrs="{'invisible': [('show_visa', '=', False)]}"-->
+<!--                                       widget="monetary" options="{'currency_field': 'currency_id'}"-->
+<!--                                       string="Visa Transactions"/>-->
                                 <field style="text-align:right;margin:0;padding:0;" name="visa_actual"
                                        attrs="{'invisible': [('show_visa_actual', '=', False)]}"
                                        widget="monetary" options="{'currency_field': 'currency_id'}"
                                        string="Visa Actual"/>
                                 <field style="text-align:right;margin:0;padding:0;" name="visa_expected"
-                                       attrs="{'invisible': [('show_visa', '=', False)]}"
+                                        attrs="{'invisible' : [('state', 'in', ['new_session', 'opening_control', 'opened'])]}"
                                        widget="monetary" options="{'currency_field': 'currency_id'}"
-                                       string="Visa Expected"/>
+                                       string="Visa Transaction"/>
                             </group>
+                            <group style="text-align:right;margin:0;padding:0;"
+                                   attrs="{'invisible':['|', ('cash_control', '=', False), ('state', '!=', 'opening_control')]}">
+                                <button class="oe_inline oe_link" name="open_visa_wizard" type="object"
+                                        attrs="{'invisible' : [('state', '=', 'closed')]}">Visa In/Out
+                                </button>
+                            </group>
+
+                            <div class="col-md-4" attrs="{'invisible' : [('state', 'in', ['new_session', 'opening_control', 'opened'])]}" style="height: 30px">
+                                <group class="oe_subtotal_footer">
+                                    <field name="visa_differ" widget="monetary" options="{'currency_field': 'currency_id'}" decoration-danger="visa_differ != 0"/>
+                                </group>
+                            </div>
+
                         </div>
                     </group>
                 </xpath>
