@@ -12,5 +12,5 @@ class ResArea(models.Model):
     _name = 'res.area'
 
     name = fields.Char('Name')
-    user_id = fields.Many2one('res.users')
+    user_id = fields.Many2one('res.users', string="Area Manager")
     branch_ids = fields.One2many(comodel_name='pos.branch', inverse_name='area_id', )

@@ -27,7 +27,12 @@ class PosSession(models.Model):
     visa_actual = fields.Float('Actual in Visa')
     visa_differ =  fields.Float('Expected in Visa', compute='compute_visa_differ')
 
+    def confirm(self):
+        pass
+
     def open_visa_wizard(self):
+        if self.visa_actual > 0:
+            raise ValidationError(_("Can not Modify Actual In Visa"))
         return {
             'name': _('VISA'),
             'view_type': 'form',
@@ -69,7 +74,8 @@ class PosSession(models.Model):
     def compute_show_visa_actual(self):
         for rec in self:
             rec.show_visa_actual = False
-            if rec.state =='closed'  or self.env.user.has_group('point_of_sale.group_pos_manager'):
+            print(rec.visa_actual, "   XXXX   ",rec.state)
+            if rec.visa_actual != 0 or rec.state not in ['new_session', 'opening_control', 'opened']  or self.env.user.has_group('point_of_sale.group_pos_manager'):
                 rec.show_visa_actual = True
 
     @api.depends('cash_register_balance_end_real')
