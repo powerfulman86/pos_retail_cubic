@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="cubic_view_users_form" model="ir.ui.view">
+            <field name="name">res.users</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="area_branch_ids" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
