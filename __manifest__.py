@@ -21,6 +21,7 @@
         'views/pos_sale_report.xml',
         'views/pos_session.xml',
         'views/product.xml',
+        'views/res_users.xml',
         'report/pos_analysis.xml',
         'report/pos_sale_report_template.xml',
         'report/pos_warehouse_branch_report.xml',
