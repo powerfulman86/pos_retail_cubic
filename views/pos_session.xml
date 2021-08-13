@@ -110,7 +110,7 @@
                                        string="Visa Transaction"/>
                             </group>
                             <group style="text-align:right;margin:0;padding:0;"
-                                   attrs="{'invisible':['|', ('cash_control', '=', False), ('state', '!=', 'opening_control')]}">
+                                   attrs="{'invisible':['|', ('cash_control', '=', False), ('state', '!=', 'opened')]}">
                                 <button class="oe_inline oe_link" name="open_visa_wizard" type="object"
                                         attrs="{'invisible' : [('state', '=', 'closed')]}">Visa In/Out
                                 </button>
