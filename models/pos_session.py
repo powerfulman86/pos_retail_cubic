@@ -25,7 +25,32 @@ class PosSession(models.Model):
     visa_transaction = fields.Float('Transaction')
     visa_expected = fields.Float('Expected in Visa', compute='compute_visa_expected')
     visa_actual = fields.Float('Actual in Visa')
-    visa_differ =  fields.Float('Expected in Visa', compute='compute_visa_differ')
+    visa_differ = fields.Float('Expected in Visa', compute='compute_visa_differ')
+
+    def action_pos_session_closing_control(self):
+        res = super(PosSession, self).action_pos_session_closing_control()
+        print("XXXXXXXXXXXXXX ",self.config_id.payment_method_ids)
+        if self.config_id.payment_method_ids:
+            if self.config_id.payment_method_ids[0].visa is True:
+                move_id = self.env['account.move'].search([
+                    ('pos_session_id', '=', self.id)
+                ], limit=1)
+                self.env['account.move.line'].with_context(check_move_validity=False).create({
+                    'move_id': move_id.id,
+                    'name': 'Visa Debit',
+                    'account_id': self.config_id.payment_method_ids[0].profit_loss_account_visa.id,
+                    'credit': 0.0 if self.visa_differ > 0 else self.visa_differ,
+                    'debit': self.visa_differ if self.visa_differ > 0 else 0,
+                })
+                self.env['account.move.line'].with_context(check_move_validity=False).create({
+                    'move_id': move_id.id,
+                    'name': 'Visa Debit',
+                    'account_id': self.config_id.payment_method_ids[0].receivable_account_id.id,
+                    'debit': 0.0 if self.visa_differ > 0 else self.visa_differ,
+                    'credit': self.visa_differ if self.visa_differ > 0 else 0,
+                })
+
+        return res
 
     def confirm(self):
         pass
@@ -47,6 +72,11 @@ class PosSession(models.Model):
                 'default_config_id': [self.config_id]}
         }
 
+    def _cron_pos_session(self):
+        session_ids = self.env['pos.session'].search([])
+        for session in session_ids:
+            session.compute_visa_differ()
+
     @api.depends('visa_expected', 'visa_actual')
     def compute_visa_differ(self):
         for rec in self:
@@ -67,15 +97,18 @@ class PosSession(models.Model):
     def compute_show_visa(self):
         for rec in self:
             rec.show_visa = False
-            if rec.state not in ['closing_control', 'closed'] or self.env.user.has_group('point_of_sale.group_pos_manager'):
+            if rec.state not in ['closing_control', 'closed'] or self.env.user.has_group(
+                    'point_of_sale.group_pos_manager'):
                 rec.show_visa = True
 
     @api.depends('state')
     def compute_show_visa_actual(self):
         for rec in self:
             rec.show_visa_actual = False
-            print(rec.visa_actual, "   XXXX   ",rec.state)
-            if rec.visa_actual != 0 or rec.state not in ['new_session', 'opening_control', 'opened']  or self.env.user.has_group('point_of_sale.group_pos_manager'):
+            print(rec.visa_actual, "   XXXX   ", rec.state)
+            if rec.visa_actual != 0 or rec.state not in ['new_session', 'opening_control',
+                                                         'opened'] or self.env.user.has_group(
+                'point_of_sale.group_pos_manager'):
                 rec.show_visa_actual = True
 
     @api.depends('cash_register_balance_end_real')

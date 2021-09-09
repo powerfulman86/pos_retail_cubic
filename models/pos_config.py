@@ -26,6 +26,7 @@ class PosConfig(models.Model):
     cash_balance = fields.Boolean(string='Cash Register Balance')
     show_mrp_order = fields.Boolean(string='Show MRP Order')
     hide_mrp_produce_direct = fields.Boolean(string='Hid Mrp Button')
+    visa_account_id = fields.Many2one('account.account', string="Visa Account")
 
     @api.onchange('mrp')
     def onchange_mrp2(self):

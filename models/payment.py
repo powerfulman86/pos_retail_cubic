@@ -8,6 +8,7 @@ class PosPaymentMethod(models.Model):
     _inherit = 'pos.payment.method'
 
     visa = fields.Boolean('Visa')
+    profit_loss_account_visa = fields.Many2one('account.account', string="Profit & Loss")
 
     @api.onchange('is_cash_count', 'visa')
     @api.constrains('is_cash_count', 'visa')

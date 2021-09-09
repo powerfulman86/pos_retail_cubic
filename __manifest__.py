@@ -13,6 +13,7 @@
         'security/security.xml',
         'security/pos_config.xml',
         'security/ir.model.access.csv',
+        'data/data.xml',
         'views/area.xml',
         'views/import.xml',
         'views/payment.xml',

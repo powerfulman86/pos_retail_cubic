@@ -25,6 +25,7 @@
                     <field name="cash_balance"/>
                 </xpath>
                 <xpath expr="//field[@name='mrp']" position="after">
+                    <field name="visa_account_id" />
                     <field name="modify_bom" attrs="{'invisible': [('mrp', '=', False)]}"/>
                 </xpath>
                 <xpath expr="//field[@name='mrp_produce_direct']" position="after">

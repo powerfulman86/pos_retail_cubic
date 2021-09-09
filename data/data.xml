@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record model="ir.cron" id="compute_visa_differ">
+            <field name="name">Visa Differance in POS Session</field>
+            <field name="model_id" ref="point_of_sale.model_pos_session"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_pos_session()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

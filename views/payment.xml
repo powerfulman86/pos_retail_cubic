@@ -7,6 +7,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='is_cash_count']" position="after">
                     <field name="visa"/>
+                    <field name="profit_loss_account_visa" attrs="{'invisible':[('visa','=', False)],
+                    'required':[('visa','=', False)]}"/>
                 </xpath>
 
             </field>
