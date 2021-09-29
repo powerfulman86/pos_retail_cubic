@@ -10,6 +10,7 @@ class PosBranch(models.Model):
 
 class ResArea(models.Model):
     _name = 'res.area'
+    _description = "Area"
 
     name = fields.Char('Name')
     user_id = fields.Many2one('res.users', string="Area Manager")
