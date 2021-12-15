@@ -121,3 +121,10 @@ class POSOrder(models.Model):
                 'extra_discount_total': ui_order['extra_discount_total']
             })
         return order_fields
+
+    def _cron_fix_missing_analytic(self):
+        pos_orders = self.env['pos.order'].search([('analytic_account_id', '=', False)], limit=1000)
+
+        for rec in pos_orders:
+            if rec.session_id.config_id.analytic_account_id:
+                rec.analytic_account_id = rec.session_id.config_id.analytic_account_id
