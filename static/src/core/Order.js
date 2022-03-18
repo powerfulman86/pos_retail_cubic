@@ -3231,6 +3231,11 @@ odoo.define('pos_retail_cubic.Order', function (require) {
                     var combo_product = this.combo_items[i].product_id;
                     var combo_quantity = this.combo_items[i].quantity;
                     var stock_available = stock_datas[combo_product[0]];
+
+                    if (stock_available == undefined){
+                        return _t(combo_product[1] + ' is not available on stock ')
+                    }
+
                     if (combo_quantity > stock_available) {
                         return _t(combo_product[1] + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
                     }
@@ -3259,10 +3264,6 @@ odoo.define('pos_retail_cubic.Order', function (require) {
                     var bom_product_name = bom_lines_set[i].bom_line.product_id[1];
                     var bom_line_quantity = line_quantity * bom_lines_set[i].quantity;
                     var stock_available = stock_datas[bom_product_id];
-
-                    if (stock_available == undefined){
-                        return _t(bom_product_name + ' is not available on stock ')
-                    }
 
                     if (stock_datas && stock_datas[bom_product_id] != undefined) {
                         if (bom_line_quantity > stock_available) {
