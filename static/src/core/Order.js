@@ -3260,6 +3260,10 @@ odoo.define('pos_retail_cubic.Order', function (require) {
                     var bom_line_quantity = line_quantity * bom_lines_set[i].quantity;
                     var stock_available = stock_datas[bom_product_id];
 
+                    if (stock_available == undefined){
+                        return _t(bom_product_name + ' is not available on stock ')
+                    }
+
                     if (stock_datas && stock_datas[bom_product_id] != undefined) {
                         if (bom_line_quantity > stock_available) {
                             return _t(bom_product_name + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
