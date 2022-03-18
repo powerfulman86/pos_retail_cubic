@@ -23,9 +23,9 @@
         'views/pos_session.xml',
         'views/product.xml',
         'views/res_users.xml',
-        'report/pos_analysis.xml',
+        # 'report/pos_analysis.xml',
         'report/pos_sale_report_template.xml',
-        'report/pos_warehouse_branch_report.xml',
+        # 'report/pos_warehouse_branch_report.xml',
         'report/pos_warehouse_move_report.xml',
     ],
     'qweb': [
@@ -35,4 +35,8 @@
         'static/src/xml/screens/Payment.xml',
         # 'static/src/xml/screens/ActionpadWidget.xml',
     ],
+    'license': 'AGPL-3',
+    'installable': True,
+    'auto_install': False,
+    'application': False,
 }

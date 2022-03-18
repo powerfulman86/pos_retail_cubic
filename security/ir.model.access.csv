@@ -11,9 +11,6 @@ access_account_payment_method_pos,account.payment.method,account.model_account_p
 access_account_payment_pos,account.payment,account.model_account_payment,point_of_sale.group_pos_user,1,1,1,0
 access_account_partial_pos,account.partial.reconcile,account.model_account_partial_reconcile,point_of_sale.group_pos_user,1,1,1,0
 access_account_full_reconcile_pos,account.full.reconcile,account.model_account_full_reconcile,point_of_sale.group_pos_user,1,1,1,0
-access_pos_warehouse_branch_report_user,pos.warehouse.branch.report.user,model_pos_warehouse_branch_report,pos_retail.group_branch_manager,1,0,0,0
-access_pos_warehouse_branch_report_user2,pos.warehouse.branch.report.user2,model_pos_warehouse_branch_report,point_of_sale.group_pos_user,1,0,0,0
-access_pos_warehouse_branch_report_manger,pos.warehouse.branch.report,model_pos_warehouse_branch_report,point_of_sale.group_pos_manager,1,1,1,1
 access_pos_branch_stock_move_report_user,pos.branch.stock.move.report.user,model_pos_branch_stock_move_report,pos_retail.group_branch_manager,1,0,0,0
 access_pos_branch_stock_move_report_user2,pos.branch.stock.move.report.user2,model_pos_branch_stock_move_report,point_of_sale.group_pos_user,1,0,0,0
 access_pos_branch_stock_move_report_manger,pos.branch.stock.move.report,model_pos_branch_stock_move_report,point_of_sale.group_pos_manager,1,1,1,1

@@ -50,19 +50,19 @@
         <!--        </record>-->
 
         <!--warehouse report-->
-        <record id="pos_wh_analysis_branch_manager" model="ir.rule">
-            <field name="name">WH Branch Manager Show only Branch</field>
-            <field ref="model_pos_warehouse_branch_report" name="model_id"/>
-            <field name="domain_force">[('pos_branch_id', '=', user.pos_branch_id.id)]</field>
-            <field name="groups" eval="[(4, ref('pos_retail.group_branch_manager'))]"/>
-        </record>
+<!--        <record id="pos_wh_analysis_branch_manager" model="ir.rule">-->
+<!--            <field name="name">WH Branch Manager Show only Branch</field>-->
+<!--            <field ref="model_pos_warehouse_branch_report" name="model_id"/>-->
+<!--            <field name="domain_force">[('pos_branch_id', '=', user.pos_branch_id.id)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('pos_retail.group_branch_manager'))]"/>-->
+<!--        </record>-->
 
-        <record id="pos_wh_analysis_branch_show_all" model="ir.rule">
-            <field name="name">WH Branch Show All</field>
-            <field ref="model_pos_warehouse_branch_report" name="model_id"/>
-            <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('point_of_sale.group_pos_manager'))]"/>
-        </record>
+<!--        <record id="pos_wh_analysis_branch_show_all" model="ir.rule">-->
+<!--            <field name="name">WH Branch Show All</field>-->
+<!--            <field ref="model_pos_warehouse_branch_report" name="model_id"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('point_of_sale.group_pos_manager'))]"/>-->
+<!--        </record>-->
 
         <!--warehouse move report-->
         <record id="pos_wh_move_branch_manager" model="ir.rule">
@@ -80,18 +80,18 @@
         </record>
 
         <!--sale summry analysis report-->
-        <record id="pos_sale_summary_branch_manager" model="ir.rule">
-            <field name="name">sale summary analysis report Manager Show only Branch</field>
-            <field ref="model_pos_sale_analytic" name="model_id"/>
-            <field name="domain_force">[('pos_branch_id', '=', user.pos_branch_id.id)]</field>
-            <field name="groups" eval="[(4, ref('pos_retail.group_branch_manager'))]"/>
-        </record>
+<!--        <record id="pos_sale_summary_branch_manager" model="ir.rule">-->
+<!--            <field name="name">sale summary analysis report Manager Show only Branch</field>-->
+<!--            <field ref="model_pos_sale_analytic" name="model_id"/>-->
+<!--            <field name="domain_force">[('pos_branch_id', '=', user.pos_branch_id.id)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('pos_retail.group_branch_manager'))]"/>-->
+<!--        </record>-->
 
-        <record id="pos_sale_summary_branch_show_all" model="ir.rule">
-            <field name="name">sale summary analysis report Show All</field>
-            <field ref="model_pos_sale_analytic" name="model_id"/>
-            <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('point_of_sale.group_pos_manager'))]"/>
-        </record>
+<!--        <record id="pos_sale_summary_branch_show_all" model="ir.rule">-->
+<!--            <field name="name">sale summary analysis report Show All</field>-->
+<!--            <field ref="model_pos_sale_analytic" name="model_id"/>-->
+<!--            <field name="domain_force">[(1, '=', 1)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('point_of_sale.group_pos_manager'))]"/>-->
+<!--        </record>-->
     </data>
 </odoo>

@@ -128,3 +128,60 @@ class POSOrder(models.Model):
         for rec in pos_orders:
             if rec.session_id.config_id.analytic_account_id:
                 rec.analytic_account_id = rec.session_id.config_id.analytic_account_id
+
+    def create_picking_bundle_pack(self, combo_item_dict):
+        if combo_item_dict:
+            warehouse_obj = self.env['stock.warehouse']
+            move_object = self.env['stock.move']
+            moves = move_object
+            picking_obj = self.env['stock.picking']
+            picking_type = self.picking_type_id
+            location_id = self.location_id.id
+            if self.partner_id:
+                destination_id = self.partner_id.property_stock_customer.id
+            else:
+                if (not picking_type) or (not picking_type.default_location_dest_id):
+                    customerloc, supplierloc = warehouse_obj._get_partner_locations()
+                    destination_id = customerloc.id
+                else:
+                    destination_id = picking_type.default_location_dest_id.id
+            is_return = self.is_return
+            picking_vals = {
+                'is_picking_combo': True,
+                'user_id': False,
+                'origin': self.pos_reference,
+                'partner_id': self.partner_id.id if self.partner_id else None,
+                'date_done': self.date_order,
+                'picking_type_id': picking_type.id,
+                'company_id': self.company_id.id,
+                'move_type': 'direct',
+                'note': self.note or "",
+                'location_id': location_id if not is_return else destination_id,
+                'location_dest_id': destination_id if not is_return else location_id,
+                'pos_order_id': self.id,
+            }
+            picking_combo = picking_obj.create(picking_vals)
+            for combo_item_id, product_uom_qty in combo_item_dict.items():
+                combo_item = self.env['pos.combo.item'].browse(combo_item_id)
+                product = combo_item.product_id
+                vals = {
+                    'name': self.name,
+                    'combo_item_id': combo_item.id,
+                    'product_uom': product.uom_id.id,
+                    'picking_id': picking_combo.id,
+                    'picking_type_id': picking_type.id,
+                    'product_id': product.id,
+                    'product_uom_qty': product_uom_qty,
+                    'state': 'draft',
+                    'location_id': location_id if not is_return else destination_id,
+                    'location_dest_id': destination_id if not is_return else location_id,
+                }
+                move = move_object.create(vals)
+                moves |= move
+            self.write({'picking_id': picking_combo.id})
+            self._force_picking_done(picking_combo)
+            # picking_combo.action_assign()
+            # picking_combo.action_done()
+        return True
+
+
