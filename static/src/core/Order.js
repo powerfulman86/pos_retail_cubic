@@ -3214,6 +3214,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             var product = this.product;
 
             var stock_datas = this.pos.db.stock_datas;
+            console.log('maher: ' + product['type']);
             if (product['type'] == 'product' && stock_datas && stock_datas[product.id] != undefined) {
                 if (!quantity) {
                     line_quantity = this.quantity;
@@ -3222,6 +3223,17 @@ odoo.define('pos_retail_cubic.Order', function (require) {
                 var stock_available = stock_datas[product.id];
                 if (line_quantity > stock_available) {
                     return _t(product.name + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
+                }
+            }
+            if (product['type'] != 'product' && product['is_combo'] == true) {
+                console.log(this);
+                for (var i = 0; i < this.combo_items.length; i++) {
+                    var combo_product = this.combo_items[i].product_id;
+                    var combo_quantity = this.combo_items[i].quantity;
+                    var stock_available = stock_datas[combo_product[0]];
+                    if (combo_quantity > stock_available) {
+                        return _t(combo_product[1] + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
+                    }
                 }
             }
             return true
