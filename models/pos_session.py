@@ -20,12 +20,12 @@ class PosPaymentMethod(models.Model):
 class PosSession(models.Model):
     _inherit = "pos.session"
     ended = fields.Boolean('ended', compute="compute_end")
-    show_visa = fields.Boolean('ended', compute="compute_show_visa")
-    show_visa_actual = fields.Boolean('ended', compute="compute_show_visa_actual")
+    show_visa = fields.Boolean('Show Visa', compute="compute_show_visa")
+    show_visa_actual = fields.Boolean('show Actual Visa', compute="compute_show_visa_actual")
     visa_transaction = fields.Float('Transaction')
     visa_expected = fields.Float('Expected in Visa', compute='compute_visa_expected')
     visa_actual = fields.Float('Actual in Visa')
-    visa_differ = fields.Float('Expected in Visa', compute='compute_visa_differ')
+    visa_differ = fields.Float('Visa Differ', compute='compute_visa_differ')
 
     def action_pos_session_closing_control(self):
         res = super(PosSession, self).action_pos_session_closing_control()

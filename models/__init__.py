@@ -8,4 +8,5 @@ from . import pos_config
 from . import PosOrder
 from . import res_users
 from . import pos_order_line
+from . import product
 
