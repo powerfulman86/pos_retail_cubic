@@ -29,7 +29,7 @@ class PosSession(models.Model):
 
     def action_pos_session_closing_control(self):
         res = super(PosSession, self).action_pos_session_closing_control()
-        print("XXXXXXXXXXXXXX ",self.config_id.payment_method_ids)
+        # print("XXXXXXXXXXXXXX ",self.config_id.payment_method_ids)
         if self.config_id.payment_method_ids:
             if self.config_id.payment_method_ids[0].visa is True:
                 move_id = self.env['account.move'].search([
@@ -105,7 +105,7 @@ class PosSession(models.Model):
     def compute_show_visa_actual(self):
         for rec in self:
             rec.show_visa_actual = False
-            print(rec.visa_actual, "   XXXX   ", rec.state)
+            # print(rec.visa_actual, "   XXXX   ", rec.state)
             if rec.visa_actual != 0 or rec.state not in ['new_session', 'opening_control',
                                                          'opened'] or self.env.user.has_group(
                 'point_of_sale.group_pos_manager'):

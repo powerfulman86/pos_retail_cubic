@@ -180,7 +180,7 @@ class POSOrder(models.Model):
                 move = move_object.create(vals)
                 moves |= move
             self.write({'picking_id': picking_combo.id})
-            # self._force_picking_done(picking_combo)
+            self._force_picking_done(picking_combo)
         return True
 
     def create_picking(self):

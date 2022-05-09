@@ -39,6 +39,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
         //     var unique_string = _super_Order.generate_unique_id.apply(this, arguments);
         //     unique_string += '-' + this.get_unique_number();
         //     console.log('new order uid: ' + unique_string);
+        //     console.log('product: ' , product);
         //     return unique_string
         // },
         initialize: function (attributes, options) {
@@ -1441,7 +1442,6 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             })
         },
         set_discount_price: function () {
-//            console.log('========== *** 3rd =========')
             var self = this;
             var order = this;
             var selected_line = order.get_selected_orderline();
@@ -2971,7 +2971,6 @@ odoo.define('pos_retail_cubic.Order', function (require) {
         },
         // TODO: method return disc value each line
         get_price_discount: function () {
-//            console.log('========== *** 6th =========')
             var price = this.get_unit_price() * (1.0 - (this.get_discount() / 100.0));
             var base_price = this.get_unit_price();
             return (base_price - price) * this.quantity
@@ -3212,9 +3211,9 @@ odoo.define('pos_retail_cubic.Order', function (require) {
         _validate_stock_on_hand: function (quantity) {
             var line_quantity = quantity;
             var product = this.product;
-
             var stock_datas = this.pos.db.stock_datas;
-            console.log('maher: ' + product['type']);
+            //console.log('stock_datas: ' , stock_datas);
+            //console.log('product: ' , product);
             if (product['type'] == 'product' && stock_datas && stock_datas[product.id] != undefined) {
                 if (!quantity) {
                     line_quantity = this.quantity;
@@ -3226,18 +3225,17 @@ odoo.define('pos_retail_cubic.Order', function (require) {
                 }
             }
             if (product['type'] != 'product' && product['is_combo'] == true) {
-                console.log(this);
+                //console.log(this);
                 for (var i = 0; i < this.combo_items.length; i++) {
                     var combo_product = this.combo_items[i].product_id;
-                    var combo_quantity = this.combo_items[i].quantity;
-                    var stock_available = stock_datas[combo_product[0]];
-
-                    if (stock_available == undefined){
-                        return _t(combo_product[1] + ' is not available on stock ')
-                    }
-
-                    if (combo_quantity > stock_available) {
-                        return _t(combo_product[1] + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
+                    var combo_quantity = this.quantity * this.combo_items[i].quantity;
+                    //console.log('combo_product: ' , combo_product);
+                    //console.log('check this value: ' , stock_available);
+                     ///must confirm this one is working fine
+                    if (stock_datas && stock_datas[combo_product[0]] != undefined) {
+                        if (combo_quantity > stock_datas[combo_product[0]]) {
+                            return _t(combo_product[i] + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
+                        }
                     }
                 }
             }
