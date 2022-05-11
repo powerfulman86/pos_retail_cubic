@@ -130,6 +130,16 @@ class POSOrder(models.Model):
             if rec.session_id.config_id.analytic_account_id:
                 rec.analytic_account_id = rec.session_id.config_id.analytic_account_id
 
+        # get list of ready transfers and validate to solve combo issue
+        # ready_transfers = self.env['stock.picking'].search(
+        #     [('state', '=', 'assigned'),
+        #      ('is_picking_combo', '!=', False),
+        #      ('pos_branch_id', '!=', False),
+        #      ('pos_order_id', '!=', False)], limit=1000)
+        # for rec in ready_transfers:
+        #     if rec.pos_order_id.state == 'paid':
+        #         rec.action_done()
+
     def create_picking_bundle_pack(self, combo_item_dict):
         if combo_item_dict:
             warehouse_obj = self.env['stock.warehouse']

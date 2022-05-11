@@ -3054,7 +3054,7 @@ odoo.define('pos_retail_cubic.Order', function (require) {
             var self = this;
             var bom_lines_set = this.get_bom_lines();
             if (bom_lines_set.length != 0) {
-//                console.log('2222' , bom_lines_set)
+                console.log('2222' , bom_lines_set)
                 return rpc.query({
                     model: 'pos.order.line',
                     method: 'action_create_mrp_production_direct_from_pos',
@@ -3224,21 +3224,21 @@ odoo.define('pos_retail_cubic.Order', function (require) {
                     return _t(product.name + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
                 }
             }
-            if (product['type'] != 'product' && product['is_combo'] == true) {
-                //console.log(this);
-                for (var i = 0; i < this.combo_items.length; i++) {
-                    var combo_product = this.combo_items[i].product_id;
-                    var combo_quantity = this.quantity * this.combo_items[i].quantity;
-                    //console.log('combo_product: ' , combo_product);
-                    //console.log('check this value: ' , stock_available);
-                     ///must confirm this one is working fine
-                    if (stock_datas && stock_datas[combo_product[0]] != undefined) {
-                        if (combo_quantity > stock_datas[combo_product[0]]) {
-                            return _t(combo_product[i] + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
-                        }
-                    }
-                }
-            }
+//            if (product['type'] != 'product' && product['is_combo'] == true) {
+//                //console.log(this);
+//                for (var i = 0; i < this.combo_items.length; i++) {
+//                    var combo_product = this.combo_items[i].product_id;
+//                    var combo_quantity = this.quantity * this.combo_items[i].quantity;
+//                    //console.log('combo_product: ' , combo_product);
+//                    //console.log('check this value: ' , stock_available);
+//                     ///must confirm this one is working fine
+//                    if (stock_datas && stock_datas[combo_product[0]] != undefined) {
+//                        if (combo_quantity > stock_datas[combo_product[0]]) {
+//                            return _t(combo_product[i] + ' available on stock is ' + stock_available + ' . Not allow sale bigger than this quantity')
+//                        }
+//                    }
+//                }
+//            }
             return true
         },
         _check_stock_on_hand: function (quantity) {
